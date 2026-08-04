@@ -45,6 +45,7 @@
 | INDEX | `OrderDate` | `OrderDate` |
 | INDEX | `ShippedDate` | `ShippedDate` |
 | INDEX | `ShipPostalCode` | `ShipPostalCode` |
+| INDEX | `ShippersOrders` | `ShipVia`（配送管理の運送会社別集計で用いる） |
 
 ### 業務ルール
 
