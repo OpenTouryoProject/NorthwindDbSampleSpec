@@ -42,10 +42,10 @@ Git 操作は人が手動で行う。
   - [画面一覧](./HLD/UI_List.md)
   - [画面遷移](./HLD/UI_FlowList.md)
 
-- [詳細設計](./HLD/LLD.md)
-  - [テーブル定義書](./HLD/TableSchema.md)
-  - [画面定義書](./HLD/UI_ElementsAndEventList.md)
-  - [イベント仕様書](./HLD/EventSpec.md)
+- [詳細設計](./LLD/Home.md)
+  - [テーブル定義書](./LLD/TableSchema.md)
+  - [画面定義書](./LLD/UI_ElementsAndEventList.md)
+  - [イベント仕様書](./LLD/EventSpec.md)
 
 ※ 実際にコーディング・エージェントに渡すのは詳細設計になる。
 
