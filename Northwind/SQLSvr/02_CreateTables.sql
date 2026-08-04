@@ -1,4 +1,4 @@
-/*==============================================================================
+﻿/*==============================================================================
   NorthwindDbSampleSpec : テーブル定義（DDL）
   --------------------------------------------------------------------------
   対象  : Microsoft SQL Server
@@ -34,7 +34,8 @@
 
   --------------------------------------------------------------------------
   原典との差分は次の 3 点。列の削除・改名・型変更は行っていない。
-    (1) 楽観排他用の [RowVersion] rowversion 列を、更新対象の 9 テーブルへ追加
+    (1) 楽観排他用の [RowVersion] int 列（既定値 1）を、更新対象の 9 テーブルへ追加
+        値はアプリが更新のたびに +1 する。DB は自動更新しない
     (2) パフォーマンス分析のため [SalesTargets] テーブルを追加
     (3) 上記の制約方針により FOREIGN KEY と CHECK 制約を作成しない
 
@@ -107,7 +108,8 @@ CREATE TABLE [dbo].[Employees] (
     [Notes]           [ntext] NULL,
     [ReportsTo]       [int] NULL,
     [PhotoPath]       [nvarchar] (255) NULL,
-    [RowVersion]      [rowversion] NOT NULL,  -- 追加：楽観排他用
+    [RowVersion]      [int] NOT NULL
+        CONSTRAINT [DF_Employees_RowVersion] DEFAULT (1),   -- 追加：楽観排他用（アプリが更新のたびに +1）
     CONSTRAINT [PK_Employees] PRIMARY KEY CLUSTERED ([EmployeeID])
 );
 GO
@@ -130,7 +132,8 @@ CREATE TABLE [dbo].[Categories] (
     [CategoryName] [nvarchar] (15) NOT NULL,
     [Description]  [ntext] NULL,
     [Picture]      [image] NULL,
-    [RowVersion]   [rowversion] NOT NULL,     -- 追加：楽観排他用
+    [RowVersion]   [int] NOT NULL
+        CONSTRAINT [DF_Categories_RowVersion] DEFAULT (1),   -- 追加：楽観排他用（アプリが更新のたびに +1）
     CONSTRAINT [PK_Categories] PRIMARY KEY CLUSTERED ([CategoryID])
 );
 GO
@@ -158,7 +161,8 @@ CREATE TABLE [dbo].[Customers] (
     [Country]      [nvarchar] (15) NULL,
     [Phone]        [nvarchar] (24) NULL,
     [Fax]          [nvarchar] (24) NULL,
-    [RowVersion]   [rowversion] NOT NULL,     -- 追加：楽観排他用
+    [RowVersion]   [int] NOT NULL
+        CONSTRAINT [DF_Customers_RowVersion] DEFAULT (1),   -- 追加：楽観排他用（アプリが更新のたびに +1）
     CONSTRAINT [PK_Customers] PRIMARY KEY CLUSTERED ([CustomerID])
 );
 GO
@@ -179,7 +183,8 @@ CREATE TABLE [dbo].[Shippers] (
     [ShipperID]   [int] IDENTITY (1, 1) NOT NULL,
     [CompanyName] [nvarchar] (40) NOT NULL,
     [Phone]       [nvarchar] (24) NULL,
-    [RowVersion]  [rowversion] NOT NULL,      -- 追加：楽観排他用
+    [RowVersion]  [int] NOT NULL
+        CONSTRAINT [DF_Shippers_RowVersion] DEFAULT (1),   -- 追加：楽観排他用（アプリが更新のたびに +1）
     CONSTRAINT [PK_Shippers] PRIMARY KEY CLUSTERED ([ShipperID])
 );
 GO
@@ -203,7 +208,8 @@ CREATE TABLE [dbo].[Suppliers] (
     [Phone]        [nvarchar] (24) NULL,
     [Fax]          [nvarchar] (24) NULL,
     [HomePage]     [ntext] NULL,
-    [RowVersion]   [rowversion] NOT NULL,     -- 追加：楽観排他用
+    [RowVersion]   [int] NOT NULL
+        CONSTRAINT [DF_Suppliers_RowVersion] DEFAULT (1),   -- 追加：楽観排他用（アプリが更新のたびに +1）
     CONSTRAINT [PK_Suppliers] PRIMARY KEY CLUSTERED ([SupplierID])
 );
 GO
@@ -328,7 +334,8 @@ CREATE TABLE [dbo].[Products] (
         CONSTRAINT [DF_Products_ReorderLevel] DEFAULT (0),
     [Discontinued]    [bit] NOT NULL
         CONSTRAINT [DF_Products_Discontinued] DEFAULT (0),
-    [RowVersion]      [rowversion] NOT NULL,  -- 追加：楽観排他用
+    [RowVersion]      [int] NOT NULL
+        CONSTRAINT [DF_Products_RowVersion] DEFAULT (1),   -- 追加：楽観排他用（アプリが更新のたびに +1）
     CONSTRAINT [PK_Products] PRIMARY KEY CLUSTERED ([ProductID])
 );
 GO
@@ -372,7 +379,8 @@ CREATE TABLE [dbo].[Orders] (
     [ShipRegion]     [nvarchar] (15) NULL,    -- 州・県相当の自由入力。[Region] テーブルとは無関係
     [ShipPostalCode] [nvarchar] (10) NULL,
     [ShipCountry]    [nvarchar] (15) NULL,
-    [RowVersion]     [rowversion] NOT NULL,   -- 追加：楽観排他用
+    [RowVersion]     [int] NOT NULL
+        CONSTRAINT [DF_Orders_RowVersion] DEFAULT (1),   -- 追加：楽観排他用（アプリが更新のたびに +1）
     CONSTRAINT [PK_Orders] PRIMARY KEY CLUSTERED ([OrderID])
 );
 GO
@@ -405,7 +413,8 @@ CREATE TABLE [dbo].[Order Details] (
         CONSTRAINT [DF_Order_Details_Quantity] DEFAULT (1),
     [Discount]   [real] NOT NULL
         CONSTRAINT [DF_Order_Details_Discount] DEFAULT (0),
-    [RowVersion] [rowversion] NOT NULL,       -- 追加：楽観排他用
+    [RowVersion] [int] NOT NULL
+        CONSTRAINT [DF_Order_Details_RowVersion] DEFAULT (1),   -- 追加：楽観排他用（アプリが更新のたびに +1）
     CONSTRAINT [PK_Order_Details] PRIMARY KEY CLUSTERED ([OrderID], [ProductID])
 );
 GO
@@ -437,7 +446,8 @@ CREATE TABLE [dbo].[SalesTargets] (
     [TargetMonth]  [tinyint] NOT NULL,
     [TargetAmount] [money] NOT NULL
         CONSTRAINT [DF_SalesTargets_TargetAmount] DEFAULT (0),
-    [RowVersion]   [rowversion] NOT NULL,     -- 追加：楽観排他用
+    [RowVersion]   [int] NOT NULL
+        CONSTRAINT [DF_SalesTargets_RowVersion] DEFAULT (1),   -- 追加：楽観排他用（アプリが更新のたびに +1）
     CONSTRAINT [PK_SalesTargets] PRIMARY KEY CLUSTERED
         ([EmployeeID], [TargetYear], [TargetMonth])
 );
@@ -476,7 +486,7 @@ UNION ALL SELECT N'5. トリガー',      CAST(COUNT(*) AS varchar(10)), N'0'
 FROM sys.triggers WHERE is_ms_shipped = 0
 UNION ALL SELECT N'（残すもの）主キー',   CAST(COUNT(*) AS varchar(10)), N'14'
 FROM sys.key_constraints WHERE type = 'PK'
-UNION ALL SELECT N'（残すもの）既定値',   CAST(COUNT(*) AS varchar(10)), N'10'
+UNION ALL SELECT N'（残すもの）既定値',   CAST(COUNT(*) AS varchar(10)), N'19'
 FROM sys.default_constraints
 UNION ALL SELECT N'（残すもの）索引',     CAST(COUNT(*) AS varchar(10)), N'24'
 FROM sys.indexes i JOIN sys.tables t ON t.object_id = i.object_id

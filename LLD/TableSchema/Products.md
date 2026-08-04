@@ -26,7 +26,7 @@
 | `UnitsOnOrder` | 発注済数 | `smallint` | 可 | | `0` | 仕入先へ発注中の数量。CHECK `UnitsOnOrder >= 0` |
 | `ReorderLevel` | 発注点 | `smallint` | 可 | | `0` | 補充を要すると判断する在庫数の閾値。CHECK `ReorderLevel >= 0` |
 | `Discontinued` | 廃番 | `bit` | 不可 | | `0` | 真のとき新規受注に使用できない |
-| `RowVersion` | 行バージョン | `rowversion` | 不可 | | DB 自動 | **追加**。楽観排他用。画面には表示しない |
+| `RowVersion` | 行バージョン | `int` | 不可 | | `1` | **追加**。楽観排他用。更新のたびにアプリが +1 する。画面には表示しない |
 
 ### キーとインデックス
 
@@ -77,7 +77,7 @@
 | `CategoryName` | カテゴリ名 | `nvarchar(15)` | 不可 | | | |
 | `Description` | 説明 | `ntext` | 可 | | | 検索条件には用いない |
 | `Picture` | 画像 | `image` | 可 | | | 本システムでは**表示・更新の対象外**。画面に出さず、更新時も値を変更しない |
-| `RowVersion` | 行バージョン | `rowversion` | 不可 | | DB 自動 | **追加**。楽観排他用。画面には表示しない |
+| `RowVersion` | 行バージョン | `int` | 不可 | | `1` | **追加**。楽観排他用。更新のたびにアプリが +1 する。画面には表示しない |
 
 ### キーとインデックス
 

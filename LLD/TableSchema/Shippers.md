@@ -19,7 +19,7 @@
 | `ShipperID` | 運送会社 ID | `int` IDENTITY(1,1) | 不可 | PK | 自動採番 | |
 | `CompanyName` | 会社名 | `nvarchar(40)` | 不可 | | | 運送会社の名称 |
 | `Phone` | 電話番号 | `nvarchar(24)` | 可 | | | |
-| `RowVersion` | 行バージョン | `rowversion` | 不可 | | DB 自動 | **追加**。楽観排他用。画面には表示しない |
+| `RowVersion` | 行バージョン | `int` | 不可 | | `1` | **追加**。楽観排他用。更新のたびにアプリが +1 する。画面には表示しない |
 
 ### キーとインデックス
 

@@ -214,11 +214,66 @@ ID の書式は `ERR-<名称>`。
 
 ### 9.1 楽観排他用の行バージョン列（`RowVersion`）
 
-- 複数利用者が同一データを同時に更新した際の上書き事故を防ぐため、**更新対象となるテーブル**に `RowVersion rowversion NOT NULL` を追加する。
-- 追加対象：`Orders`, `Order Details`, `Customers`, `Products`, `Categories`, `Suppliers`, `Employees`, `Shippers`, `SalesTargets`
-- 追加しない：`Region`, `Territories`, `EmployeeTerritories`, `CustomerDemographics`, `CustomerCustomerDemo`（本システムでは参照または関連の付け外しのみで、行の項目更新を行わないため）
-- 制御方式：画面表示時に読み込んだ `RowVersion` を保持し、更新・削除の `WHERE` 句に主キーとあわせて指定する。更新件数が 0 件のときは `ERR-CONFLICT` とする。
-- `RowVersion` は画面に表示しない（画面定義書の画面項目には含めない）。
+複数利用者が同一データを同時に更新した際の上書き事故（ロストアップデート）を防ぐため、
+**更新対象となるテーブル**に行バージョン列を追加する。
+
+#### 定義
+
+| 項目 | 内容 |
+| :--- | :--- |
+| 列定義 | `RowVersion int NOT NULL DEFAULT 1` |
+| 追加対象 | `Orders`, `Order Details`, `Customers`, `Products`, `Categories`, `Suppliers`, `Employees`, `Shippers`, `SalesTargets`（9 テーブル） |
+| 追加しない | `Region`, `Territories`, `EmployeeTerritories`, `CustomerDemographics`, `CustomerCustomerDemo`（参照または関連の付け外しのみで、行の項目更新を行わないため） |
+| 採番 | **アプリケーションが更新のたびに +1 する**。DB は自動更新しない |
+| 画面表示 | しない（画面定義書の画面項目には含めない） |
+
+#### 制御方式
+
+1. 画面表示時に読み込んだ `RowVersion` を画面が保持する。
+2. 更新・削除の `WHERE` 句に、主キーとあわせて保持していた `RowVersion` を指定する。
+3. **更新時は `SET` 句で `RowVersion` を +1 する。**
+4. 更新・削除の件数が 0 件のときは `ERR-CONFLICT` とする。
+   （主キーの行自体が存在しない場合は `ERR-NOTFOUND`。両者を区別すること）
+
+**更新の定型文。すべての更新系イベントはこの形に従う。**
+
+```sql
+UPDATE   <テーブル>
+   SET   <更新する列> = <値>
+       , RowVersion = RowVersion + 1        -- ★ 必ず書く
+ WHERE   <主キー>   = <値>
+   AND   RowVersion = <画面が保持していた値>
+```
+
+削除の定型文。削除では `RowVersion` を更新しない。
+
+```sql
+DELETE FROM <テーブル>
+ WHERE <主キー> = <値> AND RowVersion = <画面が保持していた値>
+```
+
+登録時は `RowVersion` を列に含めない（`DEFAULT` により 1 で初期化される）。
+
+> **`RowVersion = RowVersion + 1` の記述漏れは、競合検知を無言で無効化する。**
+> 加算を忘れると版数が進まないため、後続の更新が古い版数のまま通り、
+> 先行更新が上書きされる（ロストアップデート）。
+> [トリガーを使わない方針](../LLD/TableSchema.md#db-に持たせない制約)のため DB 側では救えない。
+> 更新系イベントを実装する際は、必ず上記の定型文から書き始めること。
+
+#### 方式の選定理由
+
+行バージョンの実現方式には複数の選択肢があるが、**整数の版数をアプリが +1 する方式**を採用する。
+
+| 方式 | 採否 | 理由 |
+| :--- | :--- | :--- |
+| **整数の版数列（採用）** | ○ | 全 DB で同一に動作する。精度差・時刻同期の問題が原理的に発生しない |
+| DB 固有の行バージョン機構 | × | SQL Server の `rowversion` は理想的だが、他 DB に同等物がない。Oracle の `ORA_ROWSCN` は `ROWDEPENDENCIES` なしではブロック単位、PostgreSQL の `xmin` は `VACUUM FREEZE` で変化、MySQL の `TIMESTAMP` は既定の秒精度では同一秒内の更新を検知できない |
+| GUID | × | 一意性は得られるが、順序を持たず、整数より記憶域と比較コストが大きい |
+| UNIX 時間・タイムスタンプ | × | **DB 間で時刻の精度が異なり、時刻同期のリスクも排除できない**。同一時刻内の更新を取りこぼす |
+
+特別の事情がない限り、DB 間での精度差や時刻同期リスクを完全に排除できる**版数（整数 +1）方式**が最も安全である。
+この方式は[クロス DB 対応](../Northwind/SQLSvr/README.md)（SQL Server / Oracle / PostgreSQL / MySQL）を前提とした選定であり、
+制約をアプリで管理する本システムの方針とも一致する。
 
 ### 9.2 売上目標テーブル（`SalesTargets`）
 

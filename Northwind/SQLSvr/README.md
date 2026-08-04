@@ -83,7 +83,7 @@ SQL 認証の場合は `-E` の代わりに `-U <ユーザ> -P <パスワード>
 | 4 | `UNIQUE` 制約 | 0（原典も 0） | `VAL-DUP`（重複確認） |
 | 5 | トリガー（`TRIGGER`） | 0（原典も 0） | イベント仕様書の処理内容に明記 |
 
-DB に残すもの：**`PRIMARY KEY` 14 / `DEFAULT` 10 / `IDENTITY` 6 / `INDEX` 24**
+DB に残すもの：**`PRIMARY KEY` 14 / `DEFAULT` 19 / `IDENTITY` 6 / `INDEX` 24**
 
 `02_CreateTables.sql` の末尾で上記が 0 件であることを検証するクエリを実行する。
 
@@ -124,7 +124,7 @@ Microsoft が MIT ライセンスで提供する Northwind サンプル デー�
 | # | 差分 | 理由 |
 | :--- | :--- | :--- |
 | 0 | **外部キー制約（14 件）と CHECK 制約（11 件）を作成しない** | 業務系で使用しない制約は DB に持たせず、アプリケーションで担保する方針（下記「制約方針」） |
-| 1 | 更新対象の 9 テーブルに `[RowVersion] rowversion NOT NULL` を追加 | 楽観排他（[共通仕様 9.1](../../HLD/Common.md#91-楽観排他用の行バージョン列rowversion)）。対象は `Orders`, `Order Details`, `Customers`, `Products`, `Categories`, `Suppliers`, `Employees`, `Shippers`, `SalesTargets`。参照または関連の付け外しのみを行う `Region`, `Territories`, `EmployeeTerritories`, `CustomerDemographics`, `CustomerCustomerDemo` には追加しない |
+| 1 | 更新対象の 9 テーブルに `[RowVersion] int NOT NULL DEFAULT (1)` を追加 | 楽観排他（[共通仕様 9.1](../../HLD/Common.md#91-楽観排他用の行バージョン列rowversion)）。**値はアプリが更新のたびに +1 する**。SQL Server 固有の `rowversion` 型はクロス DB 対応のため用いない。対象は `Orders`, `Order Details`, `Customers`, `Products`, `Categories`, `Suppliers`, `Employees`, `Shippers`, `SalesTargets`。参照または関連の付け外しのみを行う `Region`, `Territories`, `EmployeeTerritories`, `CustomerDemographics`, `CustomerCustomerDemo` には追加しない |
 | 2 | `SalesTargets` テーブルを追加 | パフォーマンス分析の目標設定・進捗トラッキング要件（[共通仕様 9.2](../../HLD/Common.md#92-売上目標テーブルsalestargets)）。採番用の代理キーは設けず業務キーを主キーとする |
 | 3 | 重複していたインデックスを整理 | 原典は同一列に 2 本のインデックスを持つ箇所がある（例：`Orders.CustomerID` に `CustomerID` と `CustomersOrders`）。同義のものは 1 本に統合した。`Orders.ShipVia` の `ShippersOrders` は配送管理の集計で使うため残している |
 | 4 | 区切り識別子を `"..."` から `[...]` に変更 | `SET QUOTED_IDENTIFIER` の設定に依存させないため。`Order Details` のように空白を含む名前があるため区切りは必須 |

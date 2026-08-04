@@ -30,7 +30,7 @@
 | `ShipRegion` | 出荷先地域 | `nvarchar(15)` | 可 | | | 州・県相当の自由入力。`Region` テーブルとは無関係 |
 | `ShipPostalCode` | 出荷先郵便番号 | `nvarchar(10)` | 可 | | | |
 | `ShipCountry` | 出荷先国 | `nvarchar(15)` | 可 | | | 売上分析・配送管理の国別集計に用いる |
-| `RowVersion` | 行バージョン | `rowversion` | 不可 | | DB 自動 | **追加**。楽観排他用。画面には表示しない |
+| `RowVersion` | 行バージョン | `int` | 不可 | | `1` | **追加**。楽観排他用。更新のたびにアプリが +1 する。画面には表示しない |
 
 ### キーとインデックス
 
@@ -82,7 +82,7 @@
 | `UnitPrice` | 単価 | `money` | 不可 | | `0` | 受注時点の単価。CHECK `UnitPrice >= 0` |
 | `Quantity` | 数量 | `smallint` | 不可 | | `1` | CHECK `Quantity > 0` |
 | `Discount` | 割引率 | `real` | 不可 | | `0` | 0〜1 の実数（0.15 は 15% 引き）。CHECK `Discount >= 0 and Discount <= 1` |
-| `RowVersion` | 行バージョン | `rowversion` | 不可 | | DB 自動 | **追加**。楽観排他用。画面には表示しない |
+| `RowVersion` | 行バージョン | `int` | 不可 | | `1` | **追加**。楽観排他用。更新のたびにアプリが +1 する。画面には表示しない |
 
 ### キーとインデックス
 

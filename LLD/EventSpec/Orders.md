@@ -408,12 +408,12 @@
      2. 採番された `OrderID` を取得する。
      3. 明細入力表の各行を `Order Details` へ挿入する。設定する列は `OrderID`, `ProductID`, `UnitPrice`, `Quantity`, `Discount`。
   4. **編集モードの場合**
-     1. `Orders` を `OrderID` ＝ 受注 ID かつ `RowVersion` ＝ 保持していた値の条件で更新する。更新する列は手順 3-1 と同じ（`ShippedDate` は更新しない）。
+     1. `Orders` を `OrderID` ＝ 受注 ID かつ `RowVersion` ＝ 保持していた値の条件で更新する。更新する列は手順 3-1 と同じ（`ShippedDate` は更新しない）。**あわせて `SET` 句で `RowVersion = RowVersion + 1` とする**（[共通仕様 9.1 の定型文](../../HLD/Common.md#91-楽観排他用の行バージョン列rowversion)）。
      2. 更新件数が 0 件の場合はロールバックし、`Orders` に当該 `OrderID` が存在するかで分岐する。存在すれば `ERR-CONFLICT`、存在しなければ `ERR-NOTFOUND` とする。
      3. 明細を行ごとに適用する（全削除・再登録は行わない。OD-T6）。
         - 削除対象として印を付けた行：`Order Details` から `OrderID` と `ProductID` の一致で削除する。
-        - 読み込み時に存在し、値が変更された行：`OrderID` と `ProductID` の一致で `UnitPrice`, `Quantity`, `Discount` を更新する。
-        - 読み込み時に存在しなかった行：`Order Details` へ挿入する。
+        - 読み込み時に存在し、値が変更された行：`OrderID` と `ProductID` の一致で `UnitPrice`, `Quantity`, `Discount` を更新する。あわせて `SET` 句で `RowVersion = RowVersion + 1` とする。
+        - 読み込み時に存在しなかった行：`Order Details` へ挿入する（`RowVersion` は列に含めない。`DEFAULT` により 1 で初期化される）。
         - 商品が変更された既存行：変更前の `ProductID` の行を削除し、変更後の `ProductID` で挿入する（`ProductID` は主キーの一部のため更新しない）。
   5. コミットする。
   6. 「受注 ID nnn を保存しました。」を表示し、当該受注 ID を引き渡して `SC-ORD-02` へ遷移する。
@@ -491,7 +491,7 @@
      2. いずれかの行で `Quantity > UnitsInStock` の場合はロールバックし、`ERR-BIZ`（「在庫が不足しています：〈商品名〉」。複数ある場合は全商品名を列挙）とする。
      3. 明細ごとに `Products.UnitsInStock` を `UnitsInStock - Quantity` へ更新する（`ProductID` の一致で更新）。
   5. **表示時点が出荷済だった場合（出荷情報の更新）**、在庫は変更しない。
-  6. `Orders` の `ShippedDate`, `ShipVia`, `Freight` を入力値で更新する（`OrderID` と `RowVersion` の一致を条件とする）。更新件数が 0 件の場合はロールバックし、手順 3 と同じ分岐で扱う。
+  6. `Orders` の `ShippedDate`, `ShipVia`, `Freight` を入力値で更新する（`OrderID` と `RowVersion` の一致を条件とし、`SET` 句で `RowVersion = RowVersion + 1` とする）。更新件数が 0 件の場合はロールバックし、手順 3 と同じ分岐で扱う。
   7. コミットする。
   8. 「受注 ID nnn の出荷情報を更新しました。」を表示し、ダイアログを閉じる。
   9. 呼び出し元画面を再読み込みする（`SC-ORD-01` なら `EV-ORD-102`、`SC-ORD-02` なら `EV-ORD-201`）。
@@ -516,7 +516,7 @@
   3. `Orders` から `OrderID` ＝ 受注 ID かつ `RowVersion` ＝ 保持していた値の行を取得する。0 件の場合はロールバックし、`Orders` に当該 `OrderID` が存在すれば `ERR-CONFLICT`、存在しなければ `ERR-NOTFOUND` とする。
   4. 取得した行の `ShippedDate` が NULL の場合はロールバックし、`ERR-BIZ`（「この受注は出荷されていません。」）とする。
   5. `Order Details` を `OrderID` で抽出し、明細ごとに `Products.UnitsInStock` を `UnitsInStock + Quantity` へ更新する（OD-T5）。
-  6. `Orders` の `ShippedDate` を NULL へ更新する（`OrderID` と `RowVersion` の一致を条件とする）。`ShipVia` と `Freight` は変更しない。更新件数が 0 件の場合は手順 3 と同じ分岐で扱う。
+  6. `Orders` の `ShippedDate` を NULL へ更新する（`OrderID` と `RowVersion` の一致を条件とし、`SET` 句で `RowVersion = RowVersion + 1` とする）。`ShipVia` と `Freight` は変更しない。更新件数が 0 件の場合は手順 3 と同じ分岐で扱う。
   7. コミットする。
   8. 「受注 ID nnn の出荷を取り消しました。」を表示し、ダイアログを閉じる。
   9. 呼び出し元画面を再読み込みする。

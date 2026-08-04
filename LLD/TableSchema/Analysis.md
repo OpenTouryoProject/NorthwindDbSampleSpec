@@ -23,7 +23,7 @@
 | `TargetYear` | 対象年 | `smallint` | 不可 | PK | | 西暦 4 桁。CHECK `TargetYear >= 1900` |
 | `TargetMonth` | 対象月 | `tinyint` | 不可 | PK | | 1〜12。CHECK `TargetMonth between 1 and 12` |
 | `TargetAmount` | 目標金額 | `money` | 不可 | | `0` | 当該年月の売上目標。CHECK `TargetAmount >= 0` |
-| `RowVersion` | 行バージョン | `rowversion` | 不可 | | DB 自動 | **追加**。楽観排他用。画面には表示しない |
+| `RowVersion` | 行バージョン | `int` | 不可 | | `1` | **追加**。楽観排他用。更新のたびにアプリが +1 する。画面には表示しない |
 
 ### キーとインデックス
 

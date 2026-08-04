@@ -109,7 +109,7 @@ DB に残すものは **`PRIMARY KEY` / `NOT NULL` / `DEFAULT` / `IDENTITY` / `I
 | `nchar(n)` / `nvarchar(n)` | 文字列（Unicode、n 文字） | `nchar` は固定長。比較時は末尾空白を除去する |
 | `ntext` | 長文文字列 | 原典どおり。検索条件には用いない |
 | `image` | バイナリ（画像） | 本システムでは**表示・更新の対象外**とし、画面に出さない |
-| `rowversion` | バイト列（8 バイト） | 楽観排他専用。画面に表示しない |
+| `int`（`RowVersion`） | 32bit 整数 | 楽観排他用の版数。アプリが +1 する。画面に表示しない |
 
 #### `Discount`（`real`）の扱い ※ 実装時の注意
 
@@ -143,11 +143,18 @@ ROUND(od.[UnitPrice] * (1 - CAST(od.[Discount] AS decimal(5,4))) * od.[Quantity]
 
 ### `RowVersion` 列（追加）
 
-- 定義：`RowVersion rowversion NOT NULL`
-- 値は DB が自動的に採番・更新する。アプリケーションから値を設定しない。
+- 定義：`RowVersion int NOT NULL DEFAULT 1`
+- **値はアプリケーションが更新のたびに +1 する。DB は自動更新しない。**
 - 追加対象：`Orders`, `Order Details`, `Customers`, `Products`, `Categories`, `Suppliers`, `Employees`, `Shippers`, `SalesTargets`
 - 追加対象外：`Region`, `Territories`, `EmployeeTerritories`, `CustomerDemographics`, `CustomerCustomerDemo`
-- 使用方法：更新・削除の `WHERE` 句に「主キー ＝ 値 AND RowVersion ＝ 読み込み時の値」を指定し、更新件数が 0 件のときは `ERR-CONFLICT` とする。
+- 使用方法：更新・削除の `WHERE` 句に「主キー ＝ 値 AND RowVersion ＝ 読み込み時の値」を指定し、
+  更新時は `SET` 句で `RowVersion = RowVersion + 1` とする。更新・削除件数が 0 件のときは `ERR-CONFLICT` とする。
+- 登録時は `RowVersion` を列に含めない（`DEFAULT` により 1 で初期化される）。
+- **`RowVersion = RowVersion + 1` の記述漏れは競合検知を無言で無効化する。**
+  トリガーを使わない方針のため DB 側では救えない。定型文と選定理由は
+  [共通仕様 9.1](../HLD/Common.md#91-楽観排他用の行バージョン列rowversion) を参照。
+- SQL Server 固有の `rowversion` 型は**用いない**。クロス DB 対応（Oracle / PostgreSQL / MySQL）で
+  同等の機構がなく、精度差・時刻同期の問題を避けられないため。
 
 ### 命名
 
