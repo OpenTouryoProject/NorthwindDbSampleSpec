@@ -33,15 +33,22 @@
 | 種別 | 名称 | 対象 |
 | :--- | :--- | :--- |
 | PK | `PK_Products` | `ProductID`（クラスタ化） |
-| FK | `FK_Products_Suppliers` | `SupplierID` → `Suppliers.SupplierID` |
-| FK | `FK_Products_Categories` | `CategoryID` → `Categories.CategoryID` |
-| CHECK | `CK_Products_UnitPrice` | `UnitPrice >= 0` |
-| CHECK | `CK_UnitsInStock` | `UnitsInStock >= 0` |
-| CHECK | `CK_UnitsOnOrder` | `UnitsOnOrder >= 0` |
-| CHECK | `CK_ReorderLevel` | `ReorderLevel >= 0` |
 | INDEX | `CategoryID` | `CategoryID` |
 | INDEX | `SupplierID` | `SupplierID` |
 | INDEX | `ProductName` | `ProductName` |
+
+### アプリで担保する制約
+
+[DB に持たせない制約](../TableSchema.md#db-に持たせない制約)の方針により、外部キー制約・CHECK 制約を作成しない。
+
+| 対象 | 規則 | 担保 |
+| :--- | :--- | :--- |
+| `SupplierID` | `Suppliers.SupplierID` に存在すること | `VAL-EXISTS`。仕入先の削除時は商品の有無を確認し、あれば `ERR-FK` |
+| `CategoryID` | `Categories.CategoryID` に存在すること | `VAL-EXISTS`。カテゴリの削除時は商品の有無を確認し、あれば `ERR-FK` |
+| `UnitPrice` | 0 以上 | `VAL-NUMERIC` |
+| `UnitsInStock` | 0 以上（在庫引落後も負にしない） | `VAL-NUMERIC` / `ERR-BIZ`（PRD-T5） |
+| `UnitsOnOrder` | 0 以上 | `VAL-NUMERIC` |
+| `ReorderLevel` | 0 以上 | `VAL-NUMERIC` |
 
 ### 業務ルール
 
@@ -78,6 +85,13 @@
 | :--- | :--- | :--- |
 | PK | `PK_Categories` | `CategoryID`（クラスタ化） |
 | INDEX | `CategoryName` | `CategoryName` |
+
+### アプリで担保する制約
+
+| 対象 | 規則 | 担保 |
+| :--- | :--- | :--- |
+| `CategoryName` | カテゴリ内で一意（CAT-T1） | `VAL-DUP`。DB に `UNIQUE` 制約は作成しない |
+| 削除 | 商品が存在するカテゴリは削除できない（CAT-T2） | `ERR-FK` |
 
 ### 業務ルール
 

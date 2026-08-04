@@ -37,15 +37,22 @@
 | 種別 | 名称 | 対象 |
 | :--- | :--- | :--- |
 | PK | `PK_Orders` | `OrderID`（クラスタ化） |
-| FK | `FK_Orders_Customers` | `CustomerID` → `Customers.CustomerID` |
-| FK | `FK_Orders_Employees` | `EmployeeID` → `Employees.EmployeeID` |
-| FK | `FK_Orders_Shippers` | `ShipVia` → `Shippers.ShipperID` |
 | INDEX | `CustomerID` | `CustomerID` |
 | INDEX | `EmployeeID` | `EmployeeID` |
 | INDEX | `OrderDate` | `OrderDate` |
 | INDEX | `ShippedDate` | `ShippedDate` |
 | INDEX | `ShipPostalCode` | `ShipPostalCode` |
 | INDEX | `ShippersOrders` | `ShipVia`（配送管理の運送会社別集計で用いる） |
+
+### アプリで担保する参照関係
+
+[DB に持たせない制約](../TableSchema.md#db-に持たせない制約)の方針により、外部キー制約を作成しない。
+
+| 列 | 参照先 | 担保 |
+| :--- | :--- | :--- |
+| `CustomerID` | `Customers.CustomerID` | `VAL-EXISTS`。顧客の削除時は受注の有無を確認し、あれば `ERR-FK` |
+| `EmployeeID` | `Employees.EmployeeID` | `VAL-EXISTS`。社員の削除時は受注の有無を確認し、あれば `ERR-FK` |
+| `ShipVia` | `Shippers.ShipperID` | `VAL-EXISTS`。運送会社の削除時は受注の有無を確認し、あれば `ERR-FK` |
 
 ### 業務ルール
 
@@ -82,13 +89,20 @@
 | 種別 | 名称 | 対象 |
 | :--- | :--- | :--- |
 | PK | `PK_Order_Details` | `OrderID`, `ProductID`（クラスタ化） |
-| FK | `FK_Order_Details_Orders` | `OrderID` → `Orders.OrderID` |
-| FK | `FK_Order_Details_Products` | `ProductID` → `Products.ProductID` |
-| CHECK | `CK_UnitPrice` | `UnitPrice >= 0` |
-| CHECK | `CK_Quantity` | `Quantity > 0` |
-| CHECK | `CK_Discount` | `Discount >= 0 and Discount <= 1` |
 | INDEX | `OrderID` | `OrderID` |
 | INDEX | `ProductID` | `ProductID` |
+
+### アプリで担保する制約
+
+[DB に持たせない制約](../TableSchema.md#db-に持たせない制約)の方針により、外部キー制約・CHECK 制約を作成しない。
+
+| 対象 | 規則 | 担保 |
+| :--- | :--- | :--- |
+| `OrderID` | `Orders.OrderID` に存在すること | `VAL-EXISTS` |
+| `ProductID` | `Products.ProductID` に存在すること | `VAL-EXISTS`。商品の削除時は明細の有無を確認し、あれば `ERR-FK` |
+| `UnitPrice` | 0 以上 | `VAL-NUMERIC` |
+| `Quantity` | 1 以上の整数 | `VAL-NUMERIC` |
+| `Discount` | 0 以上 1 以下 | `VAL-NUMERIC` |
 
 ### 業務ルール
 

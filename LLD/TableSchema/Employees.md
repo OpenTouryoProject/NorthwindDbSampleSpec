@@ -41,10 +41,20 @@
 | 種別 | 名称 | 対象 |
 | :--- | :--- | :--- |
 | PK | `PK_Employees` | `EmployeeID`（クラスタ化） |
-| FK | `FK_Employees_Employees` | `ReportsTo` → `Employees.EmployeeID` |
-| CHECK | `CK_Birthdate` | `BirthDate < getdate()` |
 | INDEX | `LastName` | `LastName` |
 | INDEX | `PostalCode` | `PostalCode` |
+| INDEX | `IX_Employees_ReportsTo` | `ReportsTo`（組織ツリーの構築、部下有無の判定で用いる） |
+
+### アプリで担保する制約
+
+[DB に持たせない制約](../TableSchema.md#db-に持たせない制約)の方針により、外部キー制約・CHECK 制約を作成しない。
+
+| 対象 | 規則 | 担保 |
+| :--- | :--- | :--- |
+| `ReportsTo` | `Employees.EmployeeID` に存在すること | `VAL-EXISTS` |
+| `ReportsTo` | 自分自身を指定できない。上司をたどる経路に自分自身が現れる循環参照を作れない（EMP-T2） | `ERR-BIZ` |
+| `BirthDate` | 当日より前であること。`BirthDate <= HireDate`（EMP-T3） | `VAL-DATE` |
+| 削除 | 受注または部下が存在する社員は削除できない（EMP-T4） | `ERR-FK` |
 
 ### 業務ルール
 
@@ -103,7 +113,13 @@
 | 種別 | 名称 | 対象 |
 | :--- | :--- | :--- |
 | PK | `PK_Territories` | `TerritoryID`（非クラスタ化） |
-| FK | `FK_Territories_Region` | `RegionID` → `Region.RegionID` |
+| INDEX | `IX_Territories_RegionID` | `RegionID`（地域別集計、存在確認で用いる） |
+
+### アプリで担保する参照関係
+
+| 列 | 参照先 | 担保 |
+| :--- | :--- | :--- |
+| `RegionID` | `Region.RegionID` | `VAL-EXISTS`。DB に外部キー制約は作成しない |
 
 ### 業務ルール
 
@@ -130,8 +146,14 @@
 | 種別 | 名称 | 対象 |
 | :--- | :--- | :--- |
 | PK | `PK_EmployeeTerritories` | `EmployeeID`, `TerritoryID`（非クラスタ化） |
-| FK | `FK_EmployeeTerritories_Employees` | `EmployeeID` → `Employees.EmployeeID` |
-| FK | `FK_EmployeeTerritories_Territories` | `TerritoryID` → `Territories.TerritoryID` |
+| INDEX | `IX_EmployeeTerritories_TerritoryID` | `TerritoryID`（テリトリー別集計で用いる。`EmployeeID` は主キーの先頭列で代替できる） |
+
+### アプリで担保する参照関係
+
+| 列 | 参照先 | 担保 |
+| :--- | :--- | :--- |
+| `EmployeeID` | `Employees.EmployeeID` | `VAL-EXISTS`。DB に外部キー制約は作成しない |
+| `TerritoryID` | `Territories.TerritoryID` | `VAL-EXISTS`。DB に外部キー制約は作成しない |
 
 ### 業務ルール
 

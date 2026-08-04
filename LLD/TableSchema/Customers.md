@@ -39,6 +39,16 @@
 | INDEX | `PostalCode` | `PostalCode` |
 | INDEX | `Region` | `Region` |
 
+### アプリで担保する制約
+
+[DB に持たせない制約](../TableSchema.md#db-に持たせない制約)の方針による。
+
+| 対象 | 規則 | 担保 |
+| :--- | :--- | :--- |
+| `CustomerID` | 英大文字 5 桁の書式（CUS-T1） | `VAL-CODE` |
+| `CustomerID` | 既存と重複しないこと（CUS-T1） | `VAL-DUP`（主キーでも防がれる） |
+| 削除 | 受注が存在する顧客は削除できない（CUS-T4） | `ERR-FK` |
+
 ### 業務ルール
 
 | # | ルール |
@@ -95,8 +105,14 @@
 | 種別 | 名称 | 対象 |
 | :--- | :--- | :--- |
 | PK | `PK_CustomerCustomerDemo` | `CustomerID`, `CustomerTypeID`（非クラスタ化） |
-| FK | `FK_CustomerCustomerDemo_Customers` | `CustomerID` → `Customers.CustomerID` |
-| FK | `FK_CustomerCustomerDemo` | `CustomerTypeID` → `CustomerDemographics.CustomerTypeID` |
+| INDEX | `IX_CustomerCustomerDemo_CustomerTypeID` | `CustomerTypeID`（顧客区分からの逆引きで用いる。`CustomerID` は主キーの先頭列で代替できる） |
+
+### アプリで担保する参照関係
+
+| 列 | 参照先 | 担保 |
+| :--- | :--- | :--- |
+| `CustomerID` | `Customers.CustomerID` | `VAL-EXISTS`。DB に外部キー制約は作成しない |
+| `CustomerTypeID` | `CustomerDemographics.CustomerTypeID` | `VAL-EXISTS`。DB に外部キー制約は作成しない |
 
 ### 業務ルール
 

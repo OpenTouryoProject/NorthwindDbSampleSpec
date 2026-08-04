@@ -30,10 +30,21 @@
 | 種別 | 名称 | 対象 |
 | :--- | :--- | :--- |
 | PK | `PK_SalesTargets` | `EmployeeID`, `TargetYear`, `TargetMonth`（クラスタ化） |
-| FK | `FK_SalesTargets_Employees` | `EmployeeID` → `Employees.EmployeeID` |
-| CHECK | `CK_SalesTargets_Year` | `TargetYear >= 1900` |
-| CHECK | `CK_SalesTargets_Month` | `TargetMonth between 1 and 12` |
-| CHECK | `CK_SalesTargets_Amount` | `TargetAmount >= 0` |
+
+`EmployeeID` は主キーの先頭列で代替できるため、索引を追加しない。
+
+### アプリで担保する制約
+
+[DB に持たせない制約](../TableSchema.md#db-に持たせない制約)の方針により、外部キー制約・CHECK 制約を作成しない。
+
+| 対象 | 規則 | 担保 |
+| :--- | :--- | :--- |
+| `EmployeeID` | `Employees.EmployeeID` に存在すること | `VAL-EXISTS` |
+| `TargetYear` | 1900 以上の西暦 4 桁 | `VAL-NUMERIC` |
+| `TargetMonth` | 1〜12 | `VAL-NUMERIC` |
+| `TargetAmount` | 0 以上 | `VAL-NUMERIC` |
+| 主キー | 同一社員・同一年月は 1 件のみ（ST-T1） | `VAL-DUP`（主キーでも防がれる） |
+| 削除 | 社員の削除時にあわせて削除する（ST-T5） | イベント仕様書に手順として明記（CASCADE を使わない） |
 
 ### 業務ルール
 

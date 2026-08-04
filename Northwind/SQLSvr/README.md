@@ -70,6 +70,43 @@ SQL 認証の場合は `-E` の代わりに `-U <ユーザ> -P <パスワード>
 
 ---
 
+## 制約方針
+
+**業務系で使用しない制約は DB に持たせず、アプリケーションで担保する。**
+参照整合性と値の妥当性を保証する責任は、DB ではなく**アプリケーションにある**。
+
+| # | DB に持たせないもの | 本 DDL での件数 | アプリ側の担保 |
+| :--- | :--- | ---: | :--- |
+| 1 | 外部キー制約（`FOREIGN KEY`） | 0（原典は 14） | `VAL-EXISTS`（参照先の存在確認）／`ERR-FK`（被参照データの削除禁止） |
+| 2 | CASCADE 更新・削除 | 0（原典も 0） | イベント仕様書に削除手順を明記（例：受注削除は明細を先に削除） |
+| 3 | `CHECK` 制約 | 0（原典は 11） | `VAL-NUMERIC` / `VAL-DATE`（入力検証） |
+| 4 | `UNIQUE` 制約 | 0（原典も 0） | `VAL-DUP`（重複確認） |
+| 5 | トリガー（`TRIGGER`） | 0（原典も 0） | イベント仕様書の処理内容に明記 |
+
+DB に残すもの：**`PRIMARY KEY` 14 / `DEFAULT` 10 / `IDENTITY` 6 / `INDEX` 24**
+
+`02_CreateTables.sql` の末尾で上記が 0 件であることを検証するクエリを実行する。
+
+### 影響
+
+- **不正なデータを DB は拒否しない。** 存在しない `CustomerID` を持つ受注も、数量 0 の明細も投入できてしまう。アプリ側の検証（[共通仕様 6 節](../../HLD/Common.md#6-共通検証ルール)）を省略すると、そのまま不整合が残る。
+- `03_InsertData.sql` は投入後に**参照整合性 14 系統と値の妥当性 9 項目を明示的に検証**する。すべて 0 件であることを確認すること。
+- 削除順序は DB が強制しないため、アプリが同一トランザクション内で順に実行する（受注 → 明細を先に削除、社員 → `EmployeeTerritories` / `SalesTargets` を先に削除、顧客 → `CustomerCustomerDemo` を先に削除）。
+
+### 索引の追加
+
+外部キー制約を作らないため、参照先の存在確認と削除可否判定はアプリの問い合わせになる。
+その対象列に索引がないと全表走査になるため、原典に索引のない次の 4 列へ索引を追加している。
+
+| 索引 | 対象 | 用途 |
+| :--- | :--- | :--- |
+| `IX_Employees_ReportsTo` | `Employees.ReportsTo` | 組織ツリーの構築、部下の有無の判定 |
+| `IX_Territories_RegionID` | `Territories.RegionID` | 地域別集計、`Region` の存在確認 |
+| `IX_EmployeeTerritories_TerritoryID` | `EmployeeTerritories.TerritoryID` | テリトリー別集計 |
+| `IX_CustomerCustomerDemo_CustomerTypeID` | `CustomerCustomerDemo.CustomerTypeID` | 顧客区分からの逆引き |
+
+詳細は[テーブル定義書の「DB に持たせない制約」](../../LLD/TableSchema.md#db-に持たせない制約)を参照。
+
 ## 原典
 
 Microsoft が MIT ライセンスで提供する Northwind サンプル データベース。
@@ -86,6 +123,7 @@ Microsoft が MIT ライセンスで提供する Northwind サンプル デー�
 
 | # | 差分 | 理由 |
 | :--- | :--- | :--- |
+| 0 | **外部キー制約（14 件）と CHECK 制約（11 件）を作成しない** | 業務系で使用しない制約は DB に持たせず、アプリケーションで担保する方針（下記「制約方針」） |
 | 1 | 更新対象の 9 テーブルに `[RowVersion] rowversion NOT NULL` を追加 | 楽観排他（[共通仕様 9.1](../../HLD/Common.md#91-楽観排他用の行バージョン列rowversion)）。対象は `Orders`, `Order Details`, `Customers`, `Products`, `Categories`, `Suppliers`, `Employees`, `Shippers`, `SalesTargets`。参照または関連の付け外しのみを行う `Region`, `Territories`, `EmployeeTerritories`, `CustomerDemographics`, `CustomerCustomerDemo` には追加しない |
 | 2 | `SalesTargets` テーブルを追加 | パフォーマンス分析の目標設定・進捗トラッキング要件（[共通仕様 9.2](../../HLD/Common.md#92-売上目標テーブルsalestargets)）。採番用の代理キーは設けず業務キーを主キーとする |
 | 3 | 重複していたインデックスを整理 | 原典は同一列に 2 本のインデックスを持つ箇所がある（例：`Orders.CustomerID` に `CustomerID` と `CustomersOrders`）。同義のものは 1 本に統合した。`Orders.ShipVia` の `ShippersOrders` は配送管理の集計で使うため残している |

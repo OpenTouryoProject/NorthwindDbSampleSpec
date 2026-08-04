@@ -17,6 +17,11 @@
     (4) SalesTargets（追加テーブル）のサンプルデータを新規に作成した。
     上記以外の値は原典のままで、行数・内容を変更していない。
 
+  【制約方針】
+  02_CreateTables.sql の方針により、外部キー制約・CHECK 制約を DB に持たせていない。
+  したがって投入順に制約はなく、不正なデータも DB は拒否しない。
+  投入後に参照整合性と値の妥当性を明示的に検証する（下部の 2. を参照）。
+
   本スクリプトは再実行可能。既存データを削除してから投入する。
   日付リテラルは mdy 形式のため SET DATEFORMAT mdy が必須。
 ==============================================================================*/
@@ -53,14 +58,11 @@ DELETE FROM [dbo].[Employees];
 GO
 
 /*------------------------------------------------------------------------------
-  1. 自己参照の外部キーを一時無効化
-     以降のテーブルは外部キーを満たす順に投入するため、無効化は不要。
-     Employees.ReportsTo だけは自己参照（社員 1 の上司が社員 2 など）であり、
-     どの順に並べても投入中に制約を満たせないため、ここだけ一時的に外す。
-     投入後に WITH CHECK で再有効化し、既存データも検証する。
+  1. 投入順について
+     制約方針により外部キー制約を作成していないため、投入順に制約はない。
+     ただし参照関係を追いやすくするため、参照先から順に投入している。
+     参照整合性は投入後に 2. で検証する（DB は保証しない）。
 ------------------------------------------------------------------------------*/
-ALTER TABLE [dbo].[Employees] NOCHECK CONSTRAINT [FK_Employees_Employees];
-GO
 
 
 /*------------------------------------------------------------------------------
@@ -3670,26 +3672,79 @@ INSERT INTO [dbo].[SalesTargets] ([EmployeeID], [TargetYear], [TargetMonth], [Ta
 GO
 
 /*------------------------------------------------------------------------------
-  2. 外部キー制約の再有効化と検証
-     WITH CHECK により既存データも検証する。ここでエラーが出なければ、
-     投入されたデータは全ての外部キー制約を満たしている。
+  2. 参照整合性の検証（DB は保証しないため、ここで明示的に確認する）
+     外部キー制約を作らない方針のため、投入したデータの整合性は
+     このクエリで担保する。すべて 0 件であること。
 ------------------------------------------------------------------------------*/
-ALTER TABLE [dbo].[Employees]           WITH CHECK CHECK CONSTRAINT [FK_Employees_Employees];
-ALTER TABLE [dbo].[Territories]         WITH CHECK CHECK CONSTRAINT ALL;
-ALTER TABLE [dbo].[EmployeeTerritories] WITH CHECK CHECK CONSTRAINT ALL;
-ALTER TABLE [dbo].[CustomerCustomerDemo] WITH CHECK CHECK CONSTRAINT ALL;
-ALTER TABLE [dbo].[Products]            WITH CHECK CHECK CONSTRAINT ALL;
-ALTER TABLE [dbo].[Orders]              WITH CHECK CHECK CONSTRAINT ALL;
-ALTER TABLE [dbo].[Order Details]       WITH CHECK CHECK CONSTRAINT ALL;
-ALTER TABLE [dbo].[SalesTargets]        WITH CHECK CHECK CONSTRAINT ALL;
+PRINT N'--- 参照整合性（すべて 0 件であること） ---';
 GO
 
-/*  信頼されていない（is_not_trusted）外部キーが残っていないことを確認する。
-    1 件でも返れば、上の再有効化が効いていない。 */
-SELECT  OBJECT_NAME(fk.parent_object_id) AS [テーブル]
-      , fk.name                          AS [外部キー]
-FROM    sys.foreign_keys AS fk
-WHERE   fk.is_not_trusted = 1;
+SELECT N'Orders.CustomerID -> Customers' AS [参照], COUNT(*) AS [不整合]
+FROM [dbo].[Orders] o WHERE o.[CustomerID] IS NOT NULL
+  AND NOT EXISTS (SELECT 1 FROM [dbo].[Customers] c WHERE c.[CustomerID] = o.[CustomerID])
+UNION ALL SELECT N'Orders.EmployeeID -> Employees', COUNT(*)
+FROM [dbo].[Orders] o WHERE o.[EmployeeID] IS NOT NULL
+  AND NOT EXISTS (SELECT 1 FROM [dbo].[Employees] e WHERE e.[EmployeeID] = o.[EmployeeID])
+UNION ALL SELECT N'Orders.ShipVia -> Shippers', COUNT(*)
+FROM [dbo].[Orders] o WHERE o.[ShipVia] IS NOT NULL
+  AND NOT EXISTS (SELECT 1 FROM [dbo].[Shippers] s WHERE s.[ShipperID] = o.[ShipVia])
+UNION ALL SELECT N'Order Details.OrderID -> Orders', COUNT(*)
+FROM [dbo].[Order Details] od
+ WHERE NOT EXISTS (SELECT 1 FROM [dbo].[Orders] o WHERE o.[OrderID] = od.[OrderID])
+UNION ALL SELECT N'Order Details.ProductID -> Products', COUNT(*)
+FROM [dbo].[Order Details] od
+ WHERE NOT EXISTS (SELECT 1 FROM [dbo].[Products] p WHERE p.[ProductID] = od.[ProductID])
+UNION ALL SELECT N'Products.SupplierID -> Suppliers', COUNT(*)
+FROM [dbo].[Products] p WHERE p.[SupplierID] IS NOT NULL
+  AND NOT EXISTS (SELECT 1 FROM [dbo].[Suppliers] s WHERE s.[SupplierID] = p.[SupplierID])
+UNION ALL SELECT N'Products.CategoryID -> Categories', COUNT(*)
+FROM [dbo].[Products] p WHERE p.[CategoryID] IS NOT NULL
+  AND NOT EXISTS (SELECT 1 FROM [dbo].[Categories] c WHERE c.[CategoryID] = p.[CategoryID])
+UNION ALL SELECT N'Employees.ReportsTo -> Employees', COUNT(*)
+FROM [dbo].[Employees] e WHERE e.[ReportsTo] IS NOT NULL
+  AND NOT EXISTS (SELECT 1 FROM [dbo].[Employees] m WHERE m.[EmployeeID] = e.[ReportsTo])
+UNION ALL SELECT N'Territories.RegionID -> Region', COUNT(*)
+FROM [dbo].[Territories] t
+ WHERE NOT EXISTS (SELECT 1 FROM [dbo].[Region] r WHERE r.[RegionID] = t.[RegionID])
+UNION ALL SELECT N'EmployeeTerritories -> Employees', COUNT(*)
+FROM [dbo].[EmployeeTerritories] et
+ WHERE NOT EXISTS (SELECT 1 FROM [dbo].[Employees] e WHERE e.[EmployeeID] = et.[EmployeeID])
+UNION ALL SELECT N'EmployeeTerritories -> Territories', COUNT(*)
+FROM [dbo].[EmployeeTerritories] et
+ WHERE NOT EXISTS (SELECT 1 FROM [dbo].[Territories] t WHERE t.[TerritoryID] = et.[TerritoryID])
+UNION ALL SELECT N'CustomerCustomerDemo -> Customers', COUNT(*)
+FROM [dbo].[CustomerCustomerDemo] cd
+ WHERE NOT EXISTS (SELECT 1 FROM [dbo].[Customers] c WHERE c.[CustomerID] = cd.[CustomerID])
+UNION ALL SELECT N'CustomerCustomerDemo -> CustomerDemographics', COUNT(*)
+FROM [dbo].[CustomerCustomerDemo] cd
+ WHERE NOT EXISTS (SELECT 1 FROM [dbo].[CustomerDemographics] d
+                    WHERE d.[CustomerTypeID] = cd.[CustomerTypeID])
+UNION ALL SELECT N'SalesTargets.EmployeeID -> Employees', COUNT(*)
+FROM [dbo].[SalesTargets] st
+ WHERE NOT EXISTS (SELECT 1 FROM [dbo].[Employees] e WHERE e.[EmployeeID] = st.[EmployeeID]);
+GO
+
+PRINT N'--- 値の妥当性（旧 CHECK 制約に相当。すべて 0 件であること） ---';
+GO
+
+SELECT N'Order Details.Quantity > 0' AS [検証], COUNT(*) AS [違反]
+FROM [dbo].[Order Details] WHERE [Quantity] <= 0
+UNION ALL SELECT N'Order Details.UnitPrice >= 0', COUNT(*)
+FROM [dbo].[Order Details] WHERE [UnitPrice] < 0
+UNION ALL SELECT N'Order Details.Discount 0..1', COUNT(*)
+FROM [dbo].[Order Details] WHERE [Discount] < 0 OR [Discount] > 1
+UNION ALL SELECT N'Products.UnitPrice >= 0', COUNT(*)
+FROM [dbo].[Products] WHERE [UnitPrice] < 0
+UNION ALL SELECT N'Products 数量系 >= 0', COUNT(*)
+FROM [dbo].[Products] WHERE [UnitsInStock] < 0 OR [UnitsOnOrder] < 0 OR [ReorderLevel] < 0
+UNION ALL SELECT N'Employees.BirthDate < 当日', COUNT(*)
+FROM [dbo].[Employees] WHERE [BirthDate] >= GETDATE()
+UNION ALL SELECT N'SalesTargets.TargetMonth 1..12', COUNT(*)
+FROM [dbo].[SalesTargets] WHERE [TargetMonth] NOT BETWEEN 1 AND 12
+UNION ALL SELECT N'SalesTargets.TargetYear >= 1900', COUNT(*)
+FROM [dbo].[SalesTargets] WHERE [TargetYear] < 1900
+UNION ALL SELECT N'SalesTargets.TargetAmount >= 0', COUNT(*)
+FROM [dbo].[SalesTargets] WHERE [TargetAmount] < 0;
 GO
 
 /*------------------------------------------------------------------------------

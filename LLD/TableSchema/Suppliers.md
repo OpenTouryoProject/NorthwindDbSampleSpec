@@ -38,6 +38,12 @@
 | INDEX | `CompanyName` | `CompanyName` |
 | INDEX | `PostalCode` | `PostalCode` |
 
+### アプリで担保する制約
+
+| 対象 | 規則 | 担保 |
+| :--- | :--- | :--- |
+| 削除 | 商品が存在する仕入先は削除できない（SUP-T1） | `ERR-FK`。DB に外部キー制約は作成しない |
+
 ### 業務ルール
 
 | # | ルール |
