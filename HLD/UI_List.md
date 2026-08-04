@@ -2,7 +2,7 @@
 
 [基本設計 Home](./Home.md) ／ [共通仕様](./Common.md) ／ [機能一覧](./FeatureList.md) ／ [画面遷移](./UI_FlowList.md)
 
-全 9 モジュールの画面を画面 ID 単位で列挙する。画面項目とイベントの定義は [画面定義書](./UI_ElementsAndEventList.md) を参照。
+全 9 モジュールの画面を画面 ID 単位で列挙する。画面項目とイベントの定義は [画面定義書](../LLD/UI_ElementsAndEventList.md) を参照。
 
 ## 凡例
 

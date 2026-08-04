@@ -1,6 +1,6 @@
 # 画面定義書：受注管理
 
-[画面定義書 索引](../UI_ElementsAndEventList.md) ／ [イベント仕様書](../EventSpec/Orders.md) ／ [共通仕様](../Common.md) ／ [画面一覧](../UI_List.md) ／ [テーブル定義書](../TableSchema/Orders.md)
+[画面定義書 索引](../UI_ElementsAndEventList.md) ／ [イベント仕様書](../EventSpec/Orders.md) ／ [共通仕様](../../HLD/Common.md) ／ [画面一覧](../../HLD/UI_List.md) ／ [テーブル定義書](../TableSchema/Orders.md)
 
 対象画面：`SC-ORD-01` 〜 `SC-ORD-05`
 
@@ -17,7 +17,7 @@
 | 入出力 | `入` = 利用者が入力、`出` = 表示のみ、`入出` = 初期値を表示し利用者が変更可 |
 | データソース | `テーブル.列` または算出式 |
 
-金額の算出式は[共通仕様 3 節](../Common.md#金額の算出式)に従う。
+金額の算出式は[共通仕様 3 節](../../HLD/Common.md#金額の算出式)に従う。
 `RowVersion` は楽観排他のために画面が内部保持するが、画面項目としては表示しない。
 
 ---

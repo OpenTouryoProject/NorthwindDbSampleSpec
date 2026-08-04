@@ -1,6 +1,6 @@
 # イベント仕様書
 
-[詳細設計 LLD](./LLD.md) ／ [共通仕様](./Common.md) ／ [画面定義書](./UI_ElementsAndEventList.md)
+[詳細設計 LLD](./Home.md) ／ [共通仕様](../HLD/Common.md) ／ [画面定義書](./UI_ElementsAndEventList.md)
 
 本書は索引と共通ルールを定める。各イベントの仕様はモジュール別のファイルに分割している。
 

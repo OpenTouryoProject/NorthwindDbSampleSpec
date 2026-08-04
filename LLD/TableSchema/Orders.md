@@ -1,6 +1,6 @@
 # テーブル定義書：受注管理
 
-[テーブル定義書 索引](../TableSchema.md) ／ [テーブル一覧](../TableList.md) ／ [共通仕様](../Common.md)
+[テーブル定義書 索引](../TableSchema.md) ／ [テーブル一覧](../../HLD/TableList.md) ／ [共通仕様](../../HLD/Common.md)
 
 収録テーブル：`Orders`, `Order Details`
 
@@ -94,6 +94,6 @@
 | OD-T1 | 主キーが `(OrderID, ProductID)` であるため、**同一受注内に同じ商品を 2 行登録できない**。既に存在する商品を追加しようとした場合は `ERR-BIZ`（「この商品は既に明細に存在します」）とし、数量の変更で対応する |
 | OD-T2 | `UnitPrice` の初期値は明細追加時点の `Products.UnitPrice` とする。以後は明細ごとに独立して保持する |
 | OD-T3 | 廃番商品（`Products.Discontinued` が真）は新規明細に指定できない（`ERR-BIZ`）。既存明細の廃番商品はそのまま保持・表示する |
-| OD-T4 | 金額の算出式は[共通仕様 3 節](../Common.md#金額の算出式)に従う |
+| OD-T4 | 金額の算出式は[共通仕様 3 節](../../HLD/Common.md#金額の算出式)に従う |
 | OD-T5 | 出荷確定時、明細の `Quantity` を `Products.UnitsInStock` から減算する。出荷取消時は加算して戻す |
 | OD-T6 | 楽観排他は親の `Orders.RowVersion` で判定する。明細の `RowVersion` は明細単位の更新検知用に保持するが、受注の保存は「明細を全削除して再登録」ではなく、追加・更新・削除を行として個別に適用する |

@@ -1,6 +1,6 @@
 # 要件定義
 
-[リポジトリ Home](../README.md) ／ [基本設計](../HLD/Home.md) ／ [詳細設計](../HLD/LLD.md)
+[リポジトリ Home](../README.md) ／ [基本設計](../HLD/Home.md) ／ [詳細設計](../LLD/Home.md)
 
 ---
 
@@ -192,4 +192,4 @@ Northwind が表す「食品卸売業者」の業務を対象とした、社内�
 | 工程 | 成果物 |
 | :--- | :--- |
 | 基本設計 | [Home](../HLD/Home.md) / [共通仕様](../HLD/Common.md) / [機能一覧](../HLD/FeatureList.md) / [テーブル一覧](../HLD/TableList.md) / [画面一覧](../HLD/UI_List.md) / [画面遷移](../HLD/UI_FlowList.md) |
-| 詳細設計 | [LLD](../HLD/LLD.md) / [テーブル定義書](../HLD/TableSchema.md) / [画面定義書](../HLD/UI_ElementsAndEventList.md) / [イベント仕様書](../HLD/EventSpec.md) |
+| 詳細設計 | [LLD](../LLD/Home.md) / [テーブル定義書](../LLD/TableSchema.md) / [画面定義書](../LLD/UI_ElementsAndEventList.md) / [イベント仕様書](../LLD/EventSpec.md) |

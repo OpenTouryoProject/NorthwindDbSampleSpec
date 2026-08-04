@@ -1,6 +1,6 @@
 # テーブル定義書
 
-[詳細設計 LLD](./LLD.md) ／ [共通仕様](./Common.md) ／ [テーブル一覧](./TableList.md)
+[詳細設計 LLD](./Home.md) ／ [共通仕様](../HLD/Common.md) ／ [テーブル一覧](../HLD/TableList.md)
 
 本書は索引と共通ルールを定める。各テーブルの定義はモジュール別のファイルに分割している。
 
@@ -42,7 +42,7 @@
 
 - 列名・型・NULL 可否・既定値・CHECK 制約は、Northwind 原典の DDL（`instnwnd.sql`）に忠実とする。
 - 原典の列の**削除・改名・型変更は行わない**。
-- 追加は次の 2 点のみ（[共通仕様 9 節](./Common.md#9-northwind-原典への追加)）。
+- 追加は次の 2 点のみ（[共通仕様 9 節](../HLD/Common.md#9-northwind-原典への追加)）。
   - 楽観排他用の `RowVersion` 列
   - 売上目標テーブル `SalesTargets`
 

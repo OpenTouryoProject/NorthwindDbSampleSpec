@@ -1,6 +1,6 @@
 # 共通仕様
 
-[基本設計 Home](./Home.md) ／ [詳細設計 LLD](./LLD.md)
+[基本設計 Home](./Home.md) ／ [詳細設計 LLD](../LLD/Home.md)
 
 本書は、基本設計・詳細設計の全成果物が共通で参照する規約を定める。
 各成果物は、共通で決まっている事柄を再掲せず、本書の ID（`PRE-*` / `VAL-*` / `ERR-*`）を参照する。
@@ -39,9 +39,9 @@
 | モジュール | `<MOD>` | `ORD` | 本書 3 節 |
 | 機能 | `FN-<MOD>-nn` | `FN-ORD-01` | [機能一覧](./FeatureList.md) |
 | 画面 | `SC-<MOD>-nn` | `SC-ORD-01` | [画面一覧](./UI_List.md) |
-| 画面項目 | `<画面ID>-I<nn>` | `SC-ORD-01-I01` | [画面定義書](./UI_ElementsAndEventList.md) |
-| アクションボタン | `<画面ID>-B<nn>` | `SC-ORD-01-B01` | [画面定義書](./UI_ElementsAndEventList.md) |
-| イベント | `EV-<MOD>-nnn` | `EV-ORD-101` | [イベント仕様書](./EventSpec.md) |
+| 画面項目 | `<画面ID>-I<nn>` | `SC-ORD-01-I01` | [画面定義書](../LLD/UI_ElementsAndEventList.md) |
+| アクションボタン | `<画面ID>-B<nn>` | `SC-ORD-01-B01` | [画面定義書](../LLD/UI_ElementsAndEventList.md) |
+| イベント | `EV-<MOD>-nnn` | `EV-ORD-101` | [イベント仕様書](../LLD/EventSpec.md) |
 | 共通事前条件 | `PRE-<名称>` | `PRE-DB` | 本書 5 節 |
 | 共通検証ルール | `VAL-<名称>` | `VAL-REQUIRED` | 本書 6 節 |
 | 共通エラー | `ERR-<名称>` | `ERR-DB` | 本書 7 節 |
@@ -212,4 +212,4 @@ ID の書式は `ERR-<名称>`。
 ### 9.2 売上目標テーブル（`SalesTargets`）
 
 - パフォーマンス分析の「目標設定・進捗トラッキング」要件は Northwind 原典のテーブルだけでは満たせないため、担当者別・年月別の売上目標を保持するテーブルを 1 つ追加する。
-- 詳細は [テーブル定義書（パフォーマンス分析）](./TableSchema/Analysis.md) を参照。
+- 詳細は [テーブル定義書（パフォーマンス分析）](../LLD/TableSchema/Analysis.md) を参照。

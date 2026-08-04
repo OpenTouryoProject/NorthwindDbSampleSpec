@@ -10,9 +10,9 @@
 | :--- | :--- | :--- |
 | 要件定義 | [RDD/Home.md](./RDD/Home.md) | 全 9 モジュール |
 | 基本設計 | [HLD/Home.md](./HLD/Home.md)（[共通仕様](./HLD/Common.md) / [機能一覧](./HLD/FeatureList.md) / [テーブル一覧](./HLD/TableList.md) / [画面一覧](./HLD/UI_List.md) / [画面遷移](./HLD/UI_FlowList.md)） | 全 9 モジュール |
-| 詳細設計 | [HLD/LLD.md](./HLD/LLD.md)（[テーブル定義書](./HLD/TableSchema.md) / [画面定義書](./HLD/UI_ElementsAndEventList.md) / [イベント仕様書](./HLD/EventSpec.md)） | テーブル定義書は全 14 テーブル、画面定義書・イベント仕様書は受注管理 |
+| 詳細設計 | [LLD/Home.md](./LLD/Home.md)（[テーブル定義書](./LLD/TableSchema.md) / [画面定義書](./LLD/UI_ElementsAndEventList.md) / [イベント仕様書](./LLD/EventSpec.md)） | テーブル定義書は全 14 テーブル、画面定義書・イベント仕様書は受注管理 |
 
-コーディング・エージェントへ渡すのは[詳細設計](./HLD/LLD.md)。まず[共通仕様](./HLD/Common.md)を読むこと。
+コーディング・エージェントへ渡すのは[詳細設計](./LLD/Home.md)。まず[共通仕様](./HLD/Common.md)を読むこと。
 
 ## 元ネタ
 [開発基盤部会 Wiki > 生成AIを活用した設計書のブレークダウン](https://dotnetdevelopmentinfrastructure.osscons.jp/index.php?%E7%94%9F%E6%88%90AI%E3%82%92%E6%B4%BB%E7%94%A8%E3%81%97%E3%81%9F%E8%A8%AD%E8%A8%88%E6%9B%B8%E3%81%AE%E3%83%96%E3%83%AC%E3%83%BC%E3%82%AF%E3%83%80%E3%82%A6%E3%83%B3)

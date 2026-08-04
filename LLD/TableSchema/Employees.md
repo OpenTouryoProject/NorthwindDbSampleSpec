@@ -1,6 +1,6 @@
 # テーブル定義書：担当者管理
 
-[テーブル定義書 索引](../TableSchema.md) ／ [テーブル一覧](../TableList.md) ／ [共通仕様](../Common.md)
+[テーブル定義書 索引](../TableSchema.md) ／ [テーブル一覧](../../HLD/TableList.md) ／ [共通仕様](../../HLD/Common.md)
 
 収録テーブル：`Employees`, `Region`, `Territories`, `EmployeeTerritories`
 
