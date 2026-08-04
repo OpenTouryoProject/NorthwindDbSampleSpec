@@ -1,0 +1,2 @@
+# NorthwindDbSampleSpec
+NorthwindDbを用いたSampleアプリケーションのSpecをコーディング・エージェントでフォワード
