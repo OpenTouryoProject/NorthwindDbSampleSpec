@@ -1,8 +1,8 @@
 # 共通仕様
 
 [要件定義](../RDD/Home.md) / [基本設計](./Home.md) / [詳細設計](../LLD/Home.md)<br>
-**共通仕様** / [機能一覧](./FeatureList.md) / [テーブル一覧](./TableList.md) / [画面一覧](./UI_List.md) / [画面遷移](./UI_FlowList.md)<br>
-[テーブル定義書](../LLD/TableSchema.md) / [画面定義書](../LLD/UI_ElementsAndEventList.md) / [イベント仕様書](../LLD/EventSpec.md)
+基本：**共通仕様** / [機能一覧](./FeatureList.md) / [テーブル一覧](./TableList.md) / [画面一覧](./UI_List.md) / [画面遷移](./UI_FlowList.md)<br>
+詳細：[テーブル定義書](../LLD/TableSchema.md) / [画面定義書](../LLD/UI_ElementsAndEventList.md) / [イベント仕様書](../LLD/EventSpec.md)
 
 本書は、基本設計・詳細設計の全成果物が共通で参照する規約を定める。
 各成果物は、共通で決まっている事柄を再掲せず、本書の ID（`PRE-*` / `VAL-*` / `ERR-*`）を参照する。

@@ -1,8 +1,8 @@
 # 画面定義書
 
 [要件定義](../RDD/Home.md) / [基本設計](../HLD/Home.md) / [詳細設計](./Home.md)<br>
-[共通仕様](../HLD/Common.md) / [機能一覧](../HLD/FeatureList.md) / [テーブル一覧](../HLD/TableList.md) / [画面一覧](../HLD/UI_List.md) / [画面遷移](../HLD/UI_FlowList.md)<br>
-[テーブル定義書](./TableSchema.md) / **画面定義書** / [イベント仕様書](./EventSpec.md)
+基本：[共通仕様](../HLD/Common.md) / [機能一覧](../HLD/FeatureList.md) / [テーブル一覧](../HLD/TableList.md) / [画面一覧](../HLD/UI_List.md) / [画面遷移](../HLD/UI_FlowList.md)<br>
+詳細：[テーブル定義書](./TableSchema.md) / **画面定義書** / [イベント仕様書](./EventSpec.md)
 
 本書は索引と共通ルールを定める。各画面の定義はモジュール別のファイルに分割している。
 

@@ -1,8 +1,8 @@
 # 機能一覧
 
 [要件定義](../RDD/Home.md) / [基本設計](./Home.md) / [詳細設計](../LLD/Home.md)<br>
-[共通仕様](./Common.md) / **機能一覧** / [テーブル一覧](./TableList.md) / [画面一覧](./UI_List.md) / [画面遷移](./UI_FlowList.md)<br>
-[テーブル定義書](../LLD/TableSchema.md) / [画面定義書](../LLD/UI_ElementsAndEventList.md) / [イベント仕様書](../LLD/EventSpec.md)
+基本：[共通仕様](./Common.md) / **機能一覧** / [テーブル一覧](./TableList.md) / [画面一覧](./UI_List.md) / [画面遷移](./UI_FlowList.md)<br>
+詳細：[テーブル定義書](../LLD/TableSchema.md) / [画面定義書](../LLD/UI_ElementsAndEventList.md) / [イベント仕様書](../LLD/EventSpec.md)
 
 全 9 モジュールの機能を機能 ID 単位で列挙する。要件との対応は [要件定義](../RDD/Home.md) の各モジュール節を参照。
 
