@@ -183,7 +183,7 @@
 | `SC-ORD-03-I06` | 受注日＊ | 日付 | 入出 | ○ | `Orders.OrderDate` | 登録モードの初期値は当日 |
 | `SC-ORD-03-I07` | 要求納期 | 日付 | 入出 | － | `Orders.RequiredDate` | `受注日 <= 要求納期`（`VAL-DATE`） |
 | `SC-ORD-03-I08` | 配送業者 | ドロップダウン | 入出 | － | `Shippers.ShipperID` / `CompanyName` | 会社名の昇順。先頭に空白の選択肢を置く |
-| `SC-ORD-03-I09` | 送料 | 数値 | 入出 | － | `Orders.Freight` | 0 以上（`VAL-NUMERIC`）。既定値 0。空のまま保存した場合は 0 として保存する。変更で `EV-ORD-303` が発火 |
+| `SC-ORD-03-I09` | 送料 | 数値 | 入出 | － | `Orders.Freight` | 0 以上（`VAL-NUMERIC`）。既定値 0。変更で `EV-ORD-303` が発火 |
 
 出荷日（`Orders.ShippedDate`）は本画面では変更しない。出荷ステータス更新ダイアログ（`SC-ORD-04`）で更新する。
 
@@ -259,7 +259,7 @@
 | `SC-ORD-04-I04` | 要求納期 | ラベル | 出 | － | `Orders.RequiredDate` | 遅延の判断材料として表示 |
 | `SC-ORD-04-I05` | 出荷日＊ | 日付 | 入出 | ○ | `Orders.ShippedDate` | 未出荷のときの初期値は当日。`受注日 <= 出荷日`（`VAL-DATE`） |
 | `SC-ORD-04-I06` | 配送業者＊ | ドロップダウン | 入出 | ○ | `Shippers.ShipperID` / `CompanyName` | 会社名の昇順 |
-| `SC-ORD-04-I07` | 送料 | 数値 | 入出 | － | `Orders.Freight` | 0 以上（`VAL-NUMERIC`）。空のまま保存した場合は 0 として保存する |
+| `SC-ORD-04-I07` | 送料 | 数値 | 入出 | － | `Orders.Freight` | 0 以上（`VAL-NUMERIC`） |
 | `SC-ORD-04-I08` | 在庫引落の内訳 | 表 | 出 | － | 明細の商品名・数量・現在庫数 | 未出荷から出荷確定するときのみ表示。在庫が不足する行を強調表示する |
 
 ## アクションボタン
