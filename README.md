@@ -10,9 +10,11 @@
 | :--- | :--- | :--- |
 | 要件定義 | [RDD/Home.md](./RDD/Home.md) | 全 9 モジュール |
 | 基本設計 | [HLD/Home.md](./HLD/Home.md)（[共通仕様](./HLD/Common.md) / [機能一覧](./HLD/FeatureList.md) / [テーブル一覧](./HLD/TableList.md) / [画面一覧](./HLD/UI_List.md) / [画面遷移](./HLD/UI_FlowList.md)） | 全 9 モジュール |
-| 詳細設計 | [LLD/Home.md](./LLD/Home.md)（[テーブル定義書](./LLD/TableSchema.md) / [画面定義書](./LLD/UI_ElementsAndEventList.md) / [イベント仕様書](./LLD/EventSpec.md)） | テーブル定義書は全 14 テーブル、画面定義書・イベント仕様書は受注管理 |
+| 詳細設計 | [LLD/Home.md](./LLD/Home.md)（[テーブル定義書](./LLD/TableSchema.md) / [画面定義書](./LLD/UI_ElementsAndEventList.md) / [イベント仕様書](./LLD/EventSpec.md) / [決定記録](./LLD/Decisions.md)） | テーブル定義書は全 14 テーブル、画面定義書・イベント仕様書は受注管理 |
 
 コーディング・エージェントへ渡すのは[詳細設計](./LLD/Home.md)。まず[共通仕様](./HLD/Common.md)を読むこと。
+
+本文（要件定義・基本設計・詳細設計）は意図的に不完全なまま保つ（漏れを見つけられるかを試す教材にするため）。漏れに対して決まったことは[決定記録](./LLD/Decisions.md)に分けて入れ、本文と合わせて読む。
 
 テーブル定義書を SQL Server 上に構築する DDL / DML は [Northwind/SQLSvr](./Northwind/SQLSvr/README.md) に置いている。
 

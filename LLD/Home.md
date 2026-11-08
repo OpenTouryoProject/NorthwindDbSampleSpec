@@ -2,7 +2,7 @@
 
 [要件定義](../RDD/Home.md) / [基本設計](../HLD/Home.md) / **詳細設計**<br>
 基本：[共通仕様](../HLD/Common.md) / [機能一覧](../HLD/FeatureList.md) / [テーブル一覧](../HLD/TableList.md) / [画面一覧](../HLD/UI_List.md) / [画面遷移](../HLD/UI_FlowList.md)<br>
-詳細：[テーブル定義書](./TableSchema.md) / [画面定義書](./UI_ElementsAndEventList.md) / [イベント仕様書](./EventSpec.md)
+詳細：[テーブル定義書](./TableSchema.md) / [画面定義書](./UI_ElementsAndEventList.md) / [イベント仕様書](./EventSpec.md) / [決定記録](./Decisions.md)
 
 **本書以下の成果物が、コーディング・エージェントへ渡す実装入力である。**
 
@@ -14,6 +14,7 @@
 | [テーブル定義書](./TableSchema.md) | 全 14 テーブルの列定義・キー・業務ルール | 全モジュール |
 | [画面定義書](./UI_ElementsAndEventList.md) | 画面項目・アクションボタン・イベント一覧 | 受注管理 |
 | [イベント仕様書](./EventSpec.md) | イベント単位の処理内容・検証・エラーハンドリング | 受注管理 |
+| [決定記録](./Decisions.md) | 本文の漏れ・曖昧さに対して決まったこと（本文は意図的に不完全なまま保ち、決定は本書以下に分ける） | 決まった分 |
 
 ## 実装に着手する前に読むもの
 
@@ -23,6 +24,7 @@
 | 2 | [テーブル定義書](./TableSchema.md) | 扱うデータの構造と業務ルールを把握する |
 | 3 | [画面定義書](./UI_ElementsAndEventList.md) | 対象画面の項目・ボタン・イベントの全体像を把握する |
 | 4 | [イベント仕様書](./EventSpec.md) | イベント単位の処理を実装する |
+| 5 | [決定記録](./Decisions.md) | 1〜4 の漏れ・曖昧さに対して決まったことを把握する。**本文と食い違うときは決定記録を正とする** |
 
 ## 作成状況
 
