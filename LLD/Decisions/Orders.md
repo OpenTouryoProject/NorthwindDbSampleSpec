@@ -134,4 +134,4 @@
 | 決定 | 1。定めない。実装に任せ、テストの期待にしない |
 | 理由 | サンプルの利用者が通常する操作ではなく、他の決定に影響しない |
 | 決めた日 | 2026-11-14 |
-| 出どころ | OpenTouryoProject/OpenTouryoCodingAgentAssets#10（受注一覧の段 4 のレビュー（MVC_Sample_Core）で見つかった） |
+| 出どころ | OpenTouryoProject/OpenTouryoCodingAgentAssets#17（受注一覧の段 4 のレビュー（MVC_Sample_Core）で見つかった） |
