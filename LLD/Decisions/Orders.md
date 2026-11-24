@@ -290,7 +290,7 @@
 | 決定 | 1。含めない |
 | 理由 | `EV-ORD-201` 手順 3 で明細を `Products` と内部結合して取り、手順 4 は明細ごとに価格・明細金額を算出し、小計・合計を求める。小計 `SC-ORD-02-I18` は「Σ 明細金額」で、明細一覧 `I17` の明細金額の和。手順の順に読むと、手順 3 で取った明細だけが小計に入る |
 | 決めた日 | 2026-11-24 |
-| 出どころ | 受注詳細（OrdTfDetail）のテスト仕様（MVC_Sample_Core）で決めた（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5） |
+| 出どころ | 受注詳細（OrdTfDetail）のテスト仕様（MVC_Sample_Core）で決めた（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。要レビュー（2026-11-24 に足した。[DEC-CMN-02](./Common.md#dec-cmn-02-明細が無い受注の小計) の理由「DB は妥当性を保証しない方針のため、反するデータは起こりうる。一覧から隠さない」と食い違う。この決定は、マスタに無い明細を明細一覧と小計から隠し、受注一覧の合計金額とも食い違う。代行役は決めるときに、この原則を当てていなかった。作者が画面の確認の後に気にした） |
 
 ## DEC-ORD-25 明細の割引率の百分率の表記
 
