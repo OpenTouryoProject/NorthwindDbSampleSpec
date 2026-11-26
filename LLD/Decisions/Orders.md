@@ -434,7 +434,7 @@
 | 決定 | 1。NULL |
 | 理由 | 既存のデータでは空の値はすべて NULL で、空文字は 0 件（Northwind2 の Orders の ShipRegion 507 件・ShipPostalCode 19 件、Customers の Region 60 件が NULL）。テーブル定義書は ShipCountry を国別集計に用いるとし、FN-SLS-04 は出荷先の国別・地域別に集計するので、空文字を混ぜると「未設定」が 2 つの群に分かれる。登録モードは ORD-T6 で顧客の値（Region が NULL の顧客がいる）を写すので、NULL のまま保存すると写した値と揃う。DEC-CMN-03・DEC-ORD-01 でも、NULL の扱いを実装任せにせず決めている |
 | 決めた日 | 2026-11-24 |
-| 出どころ | 受注詳細（登録・編集。OrdTfEdit）のテスト仕様（MVC_Sample_Core）で決めた（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。推奨（3）と違う。要レビュー（本文は直接は決めていない。集計の画面 SC-SLS-04 はまだ作っていない） |
+| 出どころ | 受注詳細（登録・編集。OrdTfEdit）のテスト仕様（MVC_Sample_Core）で決めた（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。推奨（3）と違う。要レビュー（本文は直接は決めていない。集計の画面 SC-SLS-04 はまだ作っていない）。2026-11-26 に決定記録のレビュー（OpenTouryoProject/NorthwindDbSampleSpec#5）で作者が了承した（要レビューを解いた） |
 
 ## DEC-ORD-37 「未保存の変更がある」の定義
 
