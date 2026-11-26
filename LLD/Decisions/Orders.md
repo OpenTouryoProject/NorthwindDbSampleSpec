@@ -590,7 +590,7 @@
 | 決定 | 4。定めない。ただし定めないのは行をどう扱うかだけで、どの扱いでも、保存の検証（`OD-T1` の重複・`OD-T3` の廃番・`VAL-EXISTS`・`VAL-REQUIRED`・`VAL-NUMERIC`）を、画面が送る読み込み時の商品 ID を信じて外さない（期待は `EV-ORD-308` の検証内容・`OD-T3` の「新規明細に指定できない」で決まる） |
 | 理由 | 画面の操作では起こらず、利用者が目にすることは無い。DEC-ORD-10・11・47 と同じく、通常の操作で起こらないものは定めない |
 | 決めた日 | 2026-11-25 |
-| 出どころ | 受注詳細（登録・編集。OrdTfEdit）の段 4 のレビュー（MVC_Sample_Core）で上がった（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。要レビュー（細工した要求で業務の検証を外せないかは、B層の業務エラーの判定に当たる） |
+| 出どころ | 受注詳細（登録・編集。OrdTfEdit）の段 4 のレビュー（MVC_Sample_Core）で上がった（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。要レビュー（細工した要求で業務の検証を外せないかは、B層の業務エラーの判定に当たる）。2026-11-26 に決定記録のレビュー（OpenTouryoProject/NorthwindDbSampleSpec#5）で作者が了承した（要レビューを解いた。細工した要求で DB の制約違反〔主キーの重複など〕の実行時エラーになる場合に、基盤の側で業務続行可能なエラーにするかは、検討の余地がある〔作者〕） |
 
 ## DEC-ORD-50 一覧の出荷更新ボタンを「出荷変更」と表示する行
 
