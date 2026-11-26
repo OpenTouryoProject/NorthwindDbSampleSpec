@@ -278,7 +278,7 @@
 | 決定 | 1。取り直した総ページ数の最終ページを表示する |
 | 理由 | DEC-ORD-06 の理由（表示と保持しているページ番号が食い違わない。[DEC-ORD-02](#dec-ord-02-検索結果が-0-件のときのページ情報) と同じ考え方）は、移動の手段によらず当てはまる。`EV-ORD-203` 手順 6 は、総件数が減るので一覧を再検索するとしており、総ページ数が減る場面を想定している |
 | 決めた日 | 2026-11-24 |
-| 出どころ | 受注詳細（OrdTfDetail）のテスト仕様（MVC_Sample_Core）で決めた（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。要レビュー（DEC-ORD-06 を復帰・削除の後にも広げた。本文が直接は決めていない） |
+| 出どころ | 受注詳細（OrdTfDetail）のテスト仕様（MVC_Sample_Core）で決めた（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。要レビュー（DEC-ORD-06 を復帰・削除の後にも広げた。本文が直接は決めていない）。2026-11-26 に決定記録のレビュー（OpenTouryoProject/NorthwindDbSampleSpec#5）で作者が了承した（要レビューを解いた。DEC-ORD-06・DEC-CMN-08 と揃う） |
 
 ## DEC-ORD-24 商品マスタに無い明細の、受注詳細の小計・合計
 
