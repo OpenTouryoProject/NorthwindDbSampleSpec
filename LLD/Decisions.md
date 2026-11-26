@@ -17,8 +17,8 @@
 
 | ファイル | 対象 | 件数 |
 | :--- | :--- | ---: |
-| [Common.md](./Decisions/Common.md) | `DEC-CMN-*`（全モジュールに効く決定。共通仕様を補う） | 7 |
-| [Orders.md](./Decisions/Orders.md) | `DEC-ORD-*`（受注管理） | 17 |
+| [Common.md](./Decisions/Common.md) | `DEC-CMN-*`（全モジュールに効く決定。共通仕様を補う） | 8 |
+| [Orders.md](./Decisions/Orders.md) | `DEC-ORD-*`（受注管理） | 78 |
 
 ## 記載項目
 
