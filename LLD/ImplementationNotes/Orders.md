@@ -1,8 +1,8 @@
 # 実装の記録：受注管理（ORD）
 
-[実装の記録](../Implement.md) / [決定記録：受注管理](../Decisions/Orders.md) / [イベント仕様書](../EventSpec/Orders.md)
+[実装の記録](../ImplementationNotes.md) / [決定記録：受注管理](../Decisions/Orders.md) / [イベント仕様書](../EventSpec/Orders.md)
 
-**実装入力ではない**（[読み方](../Implement.md#読み方)）。記録した実装：OpenTouryoProject/VerifyCaTddForOT@4a4d362（ブランチ `verify`。2026-11-26）。
+**実装入力ではない**（[読み方](../ImplementationNotes.md#読み方)）。記録した実装：OpenTouryoProject/VerifyCaTddForOT@4a4d362（ブランチ `verify`。2026-11-26）。
 
 - ケース 1（MVC_Sample・net48）とケース 3（WebForms_Sample）は受注一覧（SC-ORD-01）だけを作った。ケース 2（MVC_Sample_Core・net10.0）は SC-ORD-01〜05 を作った。
 - B層（`Shared/Business/OrdTfBusiness.cs`）と SQL（`resource/Sql/OrdTf*`）は 3 つのケースで共用する。並べ替え（`EV-ORD-105`）はケース 2 だけ。

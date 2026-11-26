@@ -21,8 +21,8 @@
 
 | ファイル | 対象 | 実装 |
 | :--- | :--- | :--- |
-| [Common.md](./Implement/Common.md) | `IMP-CMN-*`（DEC-CMN の「定めない」と、モジュールをまたぐメッセージ ID） | OpenTouryoProject/VerifyCaTddForOT（ブランチ `verify`） |
-| [Orders.md](./Implement/Orders.md) | `IMP-ORD-*`（受注管理） | 同上 |
+| [Common.md](./ImplementationNotes/Common.md) | `IMP-CMN-*`（DEC-CMN の「定めない」と、モジュールをまたぐメッセージ ID） | OpenTouryoProject/VerifyCaTddForOT（ブランチ `verify`） |
+| [Orders.md](./ImplementationNotes/Orders.md) | `IMP-ORD-*`（受注管理） | 同上 |
 
 ## 記載項目
 

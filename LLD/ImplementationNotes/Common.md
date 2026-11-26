@@ -1,8 +1,8 @@
 # 実装の記録：共通（CMN）
 
-[実装の記録](../Implement.md) / [決定記録：共通](../Decisions/Common.md) / [共通仕様](../../HLD/Common.md)
+[実装の記録](../ImplementationNotes.md) / [決定記録：共通](../Decisions/Common.md) / [共通仕様](../../HLD/Common.md)
 
-**実装入力ではない**（[読み方](../Implement.md#読み方)）。記録した実装：OpenTouryoProject/VerifyCaTddForOT@4a4d362（ブランチ `verify`。2026-11-26）。
+**実装入力ではない**（[読み方](../ImplementationNotes.md#読み方)）。記録した実装：OpenTouryoProject/VerifyCaTddForOT@4a4d362（ブランチ `verify`。2026-11-26）。
 
 ## IMP-CMN-01 メッセージ ID
 
