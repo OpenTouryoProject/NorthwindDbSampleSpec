@@ -6,7 +6,7 @@
 
 - ケース 1（MVC_Sample・net48）とケース 3（WebForms_Sample）は受注一覧（SC-ORD-01）だけを作った。ケース 2（MVC_Sample_Core・net10.0）は SC-ORD-01〜05 を作った。
 - B層（`Shared/Business/OrdTfBusiness.cs`）と SQL（`resource/Sql/OrdTf*`）は 3 つのケースで共用する。並べ替え（`EV-ORD-105`）はケース 2 だけ。
-- **まだ実装に入っていない決定**：DEC-ORD-24・66（決め直し）、DEC-ORD-44（補い）と DEC-ORD-73〜78（2026-11-26 のレビューで決めた）。この版の実装は、商品マスタに無い明細を詳細・編集・帳票・出荷の内訳に出さず（`Products` と内部結合）、出荷済の受注も削除でき、在庫超過の警告をほかの行が超えていても消す（IMP-ORD-44）。直す回で、ここも直す。
+- **まだ実装に入っていない決定**：DEC-ORD-24・66（決め直し）、DEC-ORD-44（補い）と DEC-ORD-73〜78・DEC-CMN-08（ページ番号の入力。2026-11-26 のレビューで決めた）。規約（OpenTouryoCodingAgentAssets の `cmn-framework.md`）の日付の入力（`<input type="date">`）も、まだ入っていない（この版は `type="text"`）。この版の実装は、商品マスタに無い明細を詳細・編集・帳票・出荷の内訳に出さず（`Products` と内部結合）、出荷済の受注も削除でき、在庫超過の警告をほかの行が超えていても消す（IMP-ORD-44）。直す回で、ここも直す。
 
 ## 「定めない」とした決定の実装
 
