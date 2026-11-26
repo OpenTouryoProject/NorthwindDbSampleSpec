@@ -746,7 +746,7 @@
 | 決定 | 3。定めない |
 | 理由 | Northwind2 の商品 77 件に `UnitsInStock` が NULL のものは 0 件で、在庫を NULL にする画面（商品の画面）はまだ仕様に無い。DEC-ORD-42（単価の NULL は定めない）と同じ型。DEC-CMN-02 の原則（DB は妥当性を保証しないので起こりうる。隠さない）にも当てた：内訳の表示は 4 節で決まり、NULL の在庫は空で見える（隠れない） |
 | 決めた日 | 2026-11-25 |
-| 出どころ | 出荷ステータス更新ダイアログ（OrdTfShip）のテスト仕様（MVC_Sample_Core）で決めた（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。要レビュー（DEC-CMN-03〔送料の NULL は 0〕では NULL の入り口があったので扱いを決めた。商品の画面で在庫を空で保存できる入り口ができたら、この決定を取り消して決め直す。そのときは 1） |
+| 出どころ | 出荷ステータス更新ダイアログ（OrdTfShip）のテスト仕様（MVC_Sample_Core）で決めた（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。要レビュー（DEC-CMN-03〔送料の NULL は 0〕では NULL の入り口があったので扱いを決めた。商品の画面で在庫を空で保存できる入り口ができたら、この決定を取り消して決め直す。そのときは 1）。2026-11-26 に決定記録のレビュー（OpenTouryoProject/NorthwindDbSampleSpec#5）で作者が了承した（定めないのまま。商品の画面〔SC-PRD-03〕で在庫を空で保存できるかを決めるときに、この決定も決め直す） |
 
 ## DEC-ORD-63 受注日が NULL の受注で、出荷日の「受注日 <= 出荷日」の検証
 
