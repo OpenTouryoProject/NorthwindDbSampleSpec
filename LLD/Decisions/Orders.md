@@ -218,7 +218,7 @@
 | 決定 | 5。定めない。テストは、各要素が順に含まれることと、空の要素が詰められることを確かめる |
 | 理由 | 本文は「空の要素を詰めて連結する」だけで区切りを書いていない。担当者名（`EMP-T1`）の半角空白を住所にも当てるのは類推になる（DEC-ORD-13 で、ほかの列に広げる読みを推測として退けたのと同じ） |
 | 決めた日 | 2026-11-24 |
-| 出どころ | 受注詳細（OrdTfDetail）のテスト仕様（MVC_Sample_Core）で決めた（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。要レビュー |
+| 出どころ | 受注詳細（OrdTfDetail）のテスト仕様（MVC_Sample_Core）で決めた（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。要レビュー。2026-11-26 に決定記録のレビュー（OpenTouryoProject/NorthwindDbSampleSpec#5）で作者が了承した（要レビューを解いた） |
 
 ## DEC-ORD-19 受注詳細へ行くときに保持する検索条件
 
@@ -302,7 +302,7 @@
 | 決定 | 1。端数があれば小数で表示し、整数なら `15%`・`0%` と表示する |
 | 理由 | SC-ORD-03 の割引率は 0〜1 の数値の入力で、0.125 のような値は利用者の操作で入りうる。1 は本文の例「0.15 → 15%」と合い、割引率の情報を落とさない。2 は表示が価格・明細金額の計算と食い違う |
 | 決めた日 | 2026-11-24 |
-| 出どころ | 受注詳細（OrdTfDetail）のテスト仕様（MVC_Sample_Core）で決めた（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。要レビュー（本文は例しか書いていない） |
+| 出どころ | 受注詳細（OrdTfDetail）のテスト仕様（MVC_Sample_Core）で決めた（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。要レビュー（本文は例しか書いていない）。2026-11-26 に決定記録のレビュー（OpenTouryoProject/NorthwindDbSampleSpec#5）で作者が了承した（要レビューを解いた） |
 
 ## DEC-ORD-26 明細の価格の、小数 2 桁の表示の丸め
 
@@ -314,7 +314,7 @@
 | 決定 | 1。四捨五入する |
 | 理由 | 共通仕様 3 節「金額の算出式」が決めている丸めは四捨五入（明細金額の小数第 3 位）だけ。価格は今の DB の値でも 3 桁以上になる（例：受注 10260 の 7.70 × (1 - 0.25) = 5.775）ので、通常の表示で起こる |
 | 決めた日 | 2026-11-24 |
-| 出どころ | 受注詳細（OrdTfDetail）のテスト仕様（MVC_Sample_Core）で決めた（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。要レビュー（本文は価格の表示の丸めを直接は決めていない） |
+| 出どころ | 受注詳細（OrdTfDetail）のテスト仕様（MVC_Sample_Core）で決めた（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。要レビュー（本文は価格の表示の丸めを直接は決めていない）。2026-11-26 に決定記録のレビュー（OpenTouryoProject/NorthwindDbSampleSpec#5）で作者が了承した（要レビューを解いた） |
 
 ## DEC-ORD-27 状況の判定で、出荷日と要求納期を時刻まで比べるか
 
@@ -362,7 +362,7 @@
 | 決定 | 2。定めない |
 | 理由 | 表示先は DEC-CMN-05 で決まっていて、利用者の振る舞いは文言で変わらない。項目 × 規則の数が多く、定めないなら後で決めるときも期待を足すだけで戻しやすい |
 | 決めた日 | 2026-11-24 |
-| 出どころ | 受注詳細（登録・編集。OrdTfEdit）のテスト仕様（MVC_Sample_Core）で決めた（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。要レビュー（DEC-ORD-31・33 と合わせて 1 つの論点：DEC-ORD-09 は本文に無い文言を決め、DEC-CMN-01 の理由は「仕様は全体を通してメッセージを文言で決めている」。文言を定めない決定は、この 2 つの前例と向きが違う） |
+| 出どころ | 受注詳細（登録・編集。OrdTfEdit）のテスト仕様（MVC_Sample_Core）で決めた（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。要レビュー（DEC-ORD-31・33 と合わせて 1 つの論点：DEC-ORD-09 は本文に無い文言を決め、DEC-CMN-01 の理由は「仕様は全体を通してメッセージを文言で決めている」。文言を定めない決定は、この 2 つの前例と向きが違う）。2026-11-26 に決定記録のレビュー（OpenTouryoProject/NorthwindDbSampleSpec#5）で作者が了承した（要レビューを解いた） |
 
 ## DEC-ORD-31 受注日が要求納期より後のときの文言
 
@@ -374,7 +374,7 @@
 | 決定 | 2。定めない |
 | 理由 | DEC-ORD-30 と同じ。表示先は DEC-CMN-04 で決まっている |
 | 決めた日 | 2026-11-24 |
-| 出どころ | 受注詳細（登録・編集。OrdTfEdit）のテスト仕様（MVC_Sample_Core）で決めた（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。要レビュー（DEC-ORD-30 と同じ論点） |
+| 出どころ | 受注詳細（登録・編集。OrdTfEdit）のテスト仕様（MVC_Sample_Core）で決めた（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。要レビュー（DEC-ORD-30 と同じ論点）。2026-11-26 に決定記録のレビュー（OpenTouryoProject/NorthwindDbSampleSpec#5）で作者が了承した（要レビューを解いた） |
 
 ## DEC-ORD-32 出荷先を「手入力している」の定義
 
@@ -398,7 +398,7 @@
 | 決定 | 2。定めない |
 | 理由 | 振る舞い（確認を出す・承認で上書き・取り消しで保つ）は本文で決まっていて、テストで確かめられる |
 | 決めた日 | 2026-11-24 |
-| 出どころ | 受注詳細（登録・編集。OrdTfEdit）のテスト仕様（MVC_Sample_Core）で決めた（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。要レビュー（DEC-ORD-30 と同じ論点） |
+| 出どころ | 受注詳細（登録・編集。OrdTfEdit）のテスト仕様（MVC_Sample_Core）で決めた（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。要レビュー（DEC-ORD-30 と同じ論点）。2026-11-26 に決定記録のレビュー（OpenTouryoProject/NorthwindDbSampleSpec#5）で作者が了承した（要レビューを解いた） |
 
 ## DEC-ORD-34 受注の保存で ERR-CONFLICT のとき、入力中の内容をどうするか
 
@@ -554,7 +554,7 @@
 | 決定 | 1。四捨五入 |
 | 理由 | DEC-ORD-26 と同じ明細の価格で、照会と編集で同じに見えるようにする |
 | 決めた日 | 2026-11-24 |
-| 出どころ | 受注詳細（登録・編集。OrdTfEdit）のテスト仕様（MVC_Sample_Core）で決めた（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。要レビュー（DEC-ORD-26 自体が要レビュー。DEC-ORD-26 を見直すときは、この決定も一緒に見直す） |
+| 出どころ | 受注詳細（登録・編集。OrdTfEdit）のテスト仕様（MVC_Sample_Core）で決めた（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。要レビュー（DEC-ORD-26 自体が要レビュー。DEC-ORD-26 を見直すときは、この決定も一緒に見直す）。2026-11-26 に決定記録のレビュー（OpenTouryoProject/NorthwindDbSampleSpec#5）で作者が了承した（要レビューを解いた） |
 
 ## DEC-ORD-47 保存する日付が 1753/01/01 より前のとき
 
@@ -818,7 +818,7 @@
 | 決定 | 1。受注詳細と同じ百分率 |
 | 理由 | DEC-ORD-25 の理由（割引率の情報を落とさない。本文の例「0.15 → 15%」）が、同じ明細の同じ列にそのまま当たる |
 | 決めた日 | 2026-11-26 |
-| 出どころ | 受注帳票プレビュー（OrdTfReport）のテスト仕様（MVC_Sample_Core）で決めた（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。要レビュー（DEC-ORD-25 を広げた決定。DEC-ORD-25 を見直すときは一緒に見直す） |
+| 出どころ | 受注帳票プレビュー（OrdTfReport）のテスト仕様（MVC_Sample_Core）で決めた（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。要レビュー（DEC-ORD-25 を広げた決定。DEC-ORD-25 を見直すときは一緒に見直す）。2026-11-26 に決定記録のレビュー（OpenTouryoProject/NorthwindDbSampleSpec#5）で作者が了承した（要レビューを解いた） |
 
 ## DEC-ORD-69 帳票の明細の価格の、小数 2 桁の表示の丸め
 
@@ -830,7 +830,7 @@
 | 決定 | 1。四捨五入する |
 | 理由 | DEC-ORD-26 の理由（共通仕様 3 節が決めている丸めは四捨五入だけ。価格は今の DB の値でも 3 桁以上になる）がそのまま当たる |
 | 決めた日 | 2026-11-26 |
-| 出どころ | 受注帳票プレビュー（OrdTfReport）のテスト仕様（MVC_Sample_Core）で決めた（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。要レビュー（DEC-ORD-26 を広げた決定。DEC-ORD-26 を見直すときは一緒に見直す） |
+| 出どころ | 受注帳票プレビュー（OrdTfReport）のテスト仕様（MVC_Sample_Core）で決めた（OpenTouryoProject/OpenTouryoCodingAgentAssets#22）。決めた者：代行（842ff281-c6cc-4685-bce6-36c31293e8fe・claude-opus-5-5）。要レビュー（DEC-ORD-26 を広げた決定。DEC-ORD-26 を見直すときは一緒に見直す）。2026-11-26 に決定記録のレビュー（OpenTouryoProject/NorthwindDbSampleSpec#5）で作者が了承した（要レビューを解いた） |
 
 ## DEC-ORD-70 帳票の ERR-NOTFOUND で受注一覧へ戻ったときの一覧状態
 
